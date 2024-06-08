@@ -8,5 +8,15 @@
   background-size: 10px 10px;
 }
 
-.tilt-on-hover {
+.tilt-child-on-hover {
+  perspective: 1000px;
+
+  >* {
+    @apply transition-transform;
+    transform-style: preserve-3d;
+
+    &:hover {
+      transform: rotateX(-45deg);
+    }
+  }
 }
