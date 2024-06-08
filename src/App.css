@@ -1,0 +1,12 @@
+.rhombus-pattern {
+  /* background: bg-stone-800, foreground: bg-stone-400 */
+  background-image: linear-gradient(135deg, #a8a29e 25%, transparent 25%),
+    linear-gradient(225deg, #a8a29e 25%, transparent 25%),
+    linear-gradient(45deg, #a8a29e 25%, transparent 25%),
+    linear-gradient(315deg, #a8a29e 25%, #292524 25%);
+  background-position: 10px 0, 10px 0, 0 0, 0 0;
+  background-size: 10px 10px;
+}
+
+.tilt-on-hover {
+}
