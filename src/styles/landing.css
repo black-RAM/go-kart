@@ -1,0 +1,16 @@
+@keyframes slideIn {
+  100% {
+    left: 0;
+    right: 0;
+  }
+}
+
+#cta-container {
+  right: -50vw;
+  animation: 250ms ease-in-out 1s 1 forwards slideIn;
+
+  h1 {
+    /* blue-950 */
+    text-shadow: -3px 3px 0px #172554;
+  }
+}

@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import * as defaultTheme from "tailwindcss/defaultTheme"
+
 export default {
   content: [
     "./index.html",
@@ -6,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      "fontFamily": {
+        "sans": ["Montserrat", defaultTheme.fontFamily.sans]
+      }
     },
   },
   plugins: [],
