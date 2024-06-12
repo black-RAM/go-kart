@@ -5,12 +5,19 @@
   }
 }
 
+#cta-container, #welcome-container {
+  animation: 250ms ease-in-out 2s 1 forwards slideIn;
+}
+
 #cta-container {
   right: -50vw;
-  animation: 250ms ease-in-out 1s 1 forwards slideIn;
 
   h1 {
     /* blue-950 */
     text-shadow: -3px 3px 0px #172554;
   }
+}
+
+#welcome-container {
+  left: -50vw;
 }
