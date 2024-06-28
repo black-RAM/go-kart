@@ -2,12 +2,34 @@ import React, { useEffect } from "react"
 import mallBackground from "../assets/mallBackground.jpg"
 import woosh from "../assets/whoosh.mp3"
 import usePlayer from "../hooks/usePlayer"
+import customer1 from "../assets/christian-buehner-DItYlc26zVI-unsplash(1).jpg"
+import customer2 from "../assets/christopher-campbell-rDEOVtE7vOs-unsplash(1).jpg"
+import customer3 from "../assets/petr-sevcovic-e12wQLAjQi0-unsplash(1).jpg"
+import customer4 from "../assets/prince-akachi-4Yv84VgQkRM-unsplash(1).jpg"
+import customer5 from "../assets/prince-akachi-J1OScm_uHUQ-unsplash(1).jpg"
 import "../styles/landing.css"
 
-const CustomTopBorder: React.FC<{children: React.ReactNode}> = ({children}) => 
+interface Parent{
+  children: React.ReactNode
+}
+
+const CustomTopBorder: React.FC<Parent> = ({children}) => 
   <article className="max-w-80 h-[30rem] mb-8 rounded bg-zinc-300 bg-opacity-75">
     <div className="border-t-8 border-l-8 border-r-8 border-zinc-200 rounded h-52"></div>
     <div className="mx-8 relative -top-44">{children}</div>
+  </article>
+
+interface TestimonialProps {
+  imgUrl: string,
+  testimony: string,
+  witness: string
+}
+
+const Testimonial: React.FC<TestimonialProps> = ({imgUrl, testimony, witness}) => 
+  <article className="bg-rose-800 rounded-sm p-4">
+    <img src={imgUrl} alt="smiling person" className="size-32 rounded-full" />
+    <p className="text-zinc-50">{testimony}</p>
+    <p className="text-zinc-100">- {witness}</p>
   </article>
 
 const LandingPage = () => {
@@ -18,7 +40,7 @@ const LandingPage = () => {
 
   return (
     <main>
-      <header className="h-[80vh] grid grid-cols-2 bg-center bg-cover" style={{backgroundImage: `url(${mallBackground})`}}>
+      <header className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
         <div className="relative overflow-hidden">
           <div id="cta-container" className="h-full w-full absolute flex items-center p-8 backdrop-blur text-orange-600 hover:text-red-600 transition-colors duration-1000">
             <h1 className="text-9xl text-right font-black uppercase">Let's Go Kart!</h1>
@@ -59,6 +81,21 @@ const LandingPage = () => {
             </CustomTopBorder>
           </div>
         </div>
+      </section>
+
+      <section className="bg-rose-950 p-4">
+        <hgroup className="text-zinc-100 text-center my-4">
+          <h3 className="font-light text-2xl">What Our Customers</h3>
+          <h2 className="font-bold text-4xl">Are Saying</h2>
+        </hgroup>
+
+        <section className="grid grid-cols-5 gap-4 overflow-y-scroll">
+          <Testimonial imgUrl={customer1} testimony="I was skeptical at first, but GoKart exceeded my expectations. Great prices, quality products, and hassle-free returns. Highly recommend!" witness="Michael R." />
+          <Testimonial imgUrl={customer2} testimony="GoKart is a game-changer. Amazing variety, detailed descriptions, and top-notch customer service. They've earned my trust!" witness="Emily J." />
+          <Testimonial imgUrl={customer3} testimony="Incredible selection and unbeatable prices on GoKart. Easy navigation, fast shipping, and secure payments. I can't shop anywhere else now!" witness="David K." />
+          <Testimonial imgUrl={customer4} testimony="GoKart has transformed my online shopping experience! Fast shipping, excellent customer service, and a user-friendly site. My go-to for everything!" witness="Arthur M."/>
+          <Testimonial imgUrl={customer5} testimony="Positive experiences all around with GoKart. Great interface, prompt delivery, and excellent product quality. Love it!" witness="Sarah T."/>
+        </section>
       </section>
     </main>
   )
