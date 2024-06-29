@@ -1,4 +1,4 @@
-@keyframes slideIn {
+@keyframes slideX {
   100% {
     left: 0;
     right: 0;
@@ -6,7 +6,7 @@
 }
 
 #cta-container, #welcome-container {
-  animation: 250ms ease-in-out 2s 1 forwards slideIn;
+  animation: 250ms ease-in-out 2s 1 forwards slideX;
 }
 
 #cta-container {
@@ -20,4 +20,28 @@
 
 #welcome-container {
   left: -50vw;
+}
+
+.text-bubble {
+  @apply bg-blue-700 text-white p-4 rounded w-3/4 lg:max-w-max text-xl;
+
+  --r: 1em; /* the radius */
+  --t: 1.5em; /* the size of the tail */
+  border-inline: var(--t) solid #0000;
+  border-radius: calc(var(--r) + var(--t))/var(--r);
+  mask:
+    radial-gradient(100% 100% at var(--_p) 0, #0000 99%, #000 102%) var(--_p) 100%/var(--t) var(--t) no-repeat,
+    linear-gradient(#000 0 0) padding-box;
+}
+
+.left {
+  --_p: 0;
+  border-bottom-left-radius: 0 0;
+}
+
+.right {
+  --_p: 100%;
+  border-bottom-right-radius: 0 0;
+  align-self: flex-end;
+  text-align: right;
 }

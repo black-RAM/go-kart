@@ -7,6 +7,7 @@ import customer2 from "../assets/christopher-campbell-rDEOVtE7vOs-unsplash(1).jp
 import customer3 from "../assets/petr-sevcovic-e12wQLAjQi0-unsplash(1).jpg"
 import customer4 from "../assets/prince-akachi-4Yv84VgQkRM-unsplash(1).jpg"
 import customer5 from "../assets/prince-akachi-J1OScm_uHUQ-unsplash(1).jpg"
+import logo from "/kart.png"
 import "../styles/landing.css"
 
 interface Parent{
@@ -83,7 +84,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className=" bg-gradient-to-b from-indigo-950 to-rose-950 p-4">
+      <section className="bg-gradient-to-b from-indigo-950 to-rose-950 p-4">
         <hgroup className="text-zinc-100 text-center my-4">
           <h3 className="font-light text-2xl">What Our Customers</h3>
           <h2 className="font-bold text-4xl">Are Saying</h2>
@@ -96,6 +97,13 @@ const LandingPage = () => {
           <Testimonial imgUrl={customer4} testimony="GoKart has transformed my online shopping experience! Fast shipping, excellent customer service, and a user-friendly site. My go-to for everything!" witness="Arthur M."/>
           <Testimonial imgUrl={customer5} testimony="Positive experiences all around with GoKart. Great interface, prompt delivery, and excellent product quality. Love it!" witness="Sarah T."/>
         </section>
+      </section>
+
+      <section className="bg-gradient-to-br from-slate-200 via-orange-200 to-stone-200">
+        <div className="flex flex-col px-4 py-16 gap-16" style={{backgroundImage: `url(${logo})`}}>
+          <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
+          <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
+        </div>
       </section>
     </main>
   )
