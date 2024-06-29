@@ -26,10 +26,10 @@ interface TestimonialProps {
 }
 
 const Testimonial: React.FC<TestimonialProps> = ({imgUrl, testimony, witness}) => 
-  <article className="bg-rose-800 rounded-sm p-4">
+  <article className="bg-rose-800 rounded-sm grow basis-60 flex flex-col items-center text-center gap-4 p-4">
     <img src={imgUrl} alt="smiling person" className="size-32 rounded-full" />
     <p className="text-zinc-50">{testimony}</p>
-    <p className="text-zinc-100">- {witness}</p>
+    <p className="text-zinc-100 italic">- {witness}</p>
   </article>
 
 const LandingPage = () => {
@@ -39,7 +39,7 @@ const LandingPage = () => {
   }, [playWoosh])
 
   return (
-    <main>
+    <main className="bg-fixed" style={{backgroundImage: "radial-gradient(#0284c7, #1e1b4b)"}}>
       <header className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
         <div className="relative overflow-hidden">
           <div id="cta-container" className="h-full w-full absolute flex items-center p-8 backdrop-blur text-orange-600 hover:text-red-600 transition-colors duration-1000">
@@ -55,7 +55,7 @@ const LandingPage = () => {
         </div>
       </header>
 
-      <section className="flex justify-center bg-fixed" style={{backgroundImage: "radial-gradient(#0284c7, #1e1b4b)"}}>
+      <section className="flex justify-center">
         <div className="flex gap-x-8 p-8">
           <div>
             <CustomTopBorder>
@@ -83,13 +83,13 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="bg-rose-950 p-4">
+      <section className=" bg-gradient-to-b from-indigo-950 to-rose-950 p-4">
         <hgroup className="text-zinc-100 text-center my-4">
           <h3 className="font-light text-2xl">What Our Customers</h3>
           <h2 className="font-bold text-4xl">Are Saying</h2>
         </hgroup>
 
-        <section className="grid grid-cols-5 gap-4 overflow-y-scroll">
+        <section className="flex flex-wrap justify-center gap-6 overflow-y-scroll">
           <Testimonial imgUrl={customer1} testimony="I was skeptical at first, but GoKart exceeded my expectations. Great prices, quality products, and hassle-free returns. Highly recommend!" witness="Michael R." />
           <Testimonial imgUrl={customer2} testimony="GoKart is a game-changer. Amazing variety, detailed descriptions, and top-notch customer service. They've earned my trust!" witness="Emily J." />
           <Testimonial imgUrl={customer3} testimony="Incredible selection and unbeatable prices on GoKart. Easy navigation, fast shipping, and secure payments. I can't shop anywhere else now!" witness="David K." />
