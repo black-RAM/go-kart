@@ -1,7 +1,10 @@
-import React, { useEffect } from "react"
-import mallBackground from "../assets/mallBackground.jpg"
-import woosh from "../assets/whoosh.mp3"
+import React, { useRef } from "react"
 import usePlayer from "../hooks/usePlayer"
+import ObserverCallback from "../types/ObserverCallback"
+import useObserver from "../hooks/useObserver"
+
+import woosh from "../assets/whoosh.mp3"
+import mallBackground from "../assets/mallBackground.jpg"
 import customer1 from "../assets/christian-buehner-DItYlc26zVI-unsplash(1).jpg"
 import customer2 from "../assets/christopher-campbell-rDEOVtE7vOs-unsplash(1).jpg"
 import customer3 from "../assets/petr-sevcovic-e12wQLAjQi0-unsplash(1).jpg"
@@ -35,13 +38,26 @@ const Testimonial: React.FC<TestimonialProps> = ({imgUrl, testimony, witness}) =
 
 const LandingPage = () => {
   const [playWoosh] = usePlayer(woosh)
-  useEffect(() => {
-    setTimeout(playWoosh, 2000)
-  }, [playWoosh])
+
+  const headerRef = useRef<HTMLElement>(null)
+
+  const animateHeader: ObserverCallback = (isVisible) => {
+    const {current} = headerRef
+    if(!current) return 
+
+    if (isVisible) {
+      current.classList.add("animated")
+      setTimeout(playWoosh, 2000)
+    } else {
+      current.classList.remove("animated")
+    }
+  }
+
+  useObserver(headerRef, animateHeader)
 
   return (
-    <main className="bg-fixed" style={{backgroundImage: "radial-gradient(#0284c7, #1e1b4b)"}}>
-      <header className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
+    <main>
+      <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
         <div className="relative overflow-hidden">
           <div id="cta-container" className="h-full w-full absolute flex items-center p-8 backdrop-blur text-orange-600 hover:text-red-600 transition-colors duration-1000">
             <h1 className="text-9xl text-right font-black uppercase">Let's Go Kart!</h1>
@@ -56,7 +72,7 @@ const LandingPage = () => {
         </div>
       </header>
 
-      <section className="flex justify-center">
+      <section className="flex justify-center bg-fixed" style={{backgroundImage: "radial-gradient(#0284c7, #1e1b4b)"}}>
         <div className="flex gap-x-8 p-8">
           <div>
             <CustomTopBorder>
