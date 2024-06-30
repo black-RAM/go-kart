@@ -36,22 +36,29 @@ const Testimonial: React.FC<TestimonialProps> = ({imgUrl, testimony, witness}) =
     <p className="text-zinc-100 italic">- {witness}</p>
   </article>
 
-const LandingPage = () => {
-  const [playWoosh] = usePlayer(woosh)
+type ObserverCallbackCreator = (ref: React.RefObject<HTMLElement>, sound: () => void, delay: number) => ObserverCallback
 
-  const headerRef = useRef<HTMLElement>(null)
-
-  const animateHeader: ObserverCallback = (isVisible) => {
-    const {current} = headerRef
-    if(!current) return 
-
-    if (isVisible) {
+const createCallback: ObserverCallbackCreator = (ref, sound, delay) => {
+  const callback: ObserverCallback = (isVisible) => {
+    const {current} = ref
+    if(!current) return
+    if(isVisible) {
       current.classList.add("animated")
-      setTimeout(playWoosh, 2000)
+      setTimeout(sound, delay)
     } else {
       current.classList.remove("animated")
     }
   }
+  return callback
+}
+
+const LandingPage = () => {
+  const [playWoosh] = usePlayer(woosh)
+
+  const headerRef = useRef<HTMLElement>(null)
+  const ctaRef = useRef<HTMLElement>(null)
+
+  const animateHeader = createCallback(headerRef, playWoosh, 2000)
 
   useObserver(headerRef, animateHeader)
 
@@ -115,7 +122,7 @@ const LandingPage = () => {
         </section>
       </section>
 
-      <section className="bg-gradient-to-br from-slate-200 via-orange-200 to-stone-200">
+      <section ref={ctaRef} className="bg-gradient-to-br from-slate-200 via-orange-200 to-stone-200">
         <div className="flex flex-col px-4 py-16 gap-16" style={{backgroundImage: `url(${logo})`}}>
           <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
           <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
