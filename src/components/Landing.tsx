@@ -10,6 +10,7 @@ import customer2 from "../assets/christopher-campbell-rDEOVtE7vOs-unsplash(1).jp
 import customer3 from "../assets/petr-sevcovic-e12wQLAjQi0-unsplash(1).jpg"
 import customer4 from "../assets/prince-akachi-4Yv84VgQkRM-unsplash(1).jpg"
 import customer5 from "../assets/prince-akachi-J1OScm_uHUQ-unsplash(1).jpg"
+import notification from "../assets/notification.mp3"
 import logo from "/kart.png"
 import "../styles/landing.css"
 
@@ -36,31 +37,42 @@ const Testimonial: React.FC<TestimonialProps> = ({imgUrl, testimony, witness}) =
     <p className="text-zinc-100 italic">- {witness}</p>
   </article>
 
-type ObserverCallbackCreator = (ref: React.RefObject<HTMLElement>, sound: () => void, delay: number) => ObserverCallback
-
-const createCallback: ObserverCallbackCreator = (ref, sound, delay) => {
-  const callback: ObserverCallback = (isVisible) => {
-    const {current} = ref
-    if(!current) return
-    if(isVisible) {
-      current.classList.add("animated")
-      setTimeout(sound, delay)
-    } else {
-      current.classList.remove("animated")
-    }
-  }
-  return callback
-}
-
 const LandingPage = () => {
   const [playWoosh] = usePlayer(woosh)
+  const [playNotification, endNotification] = usePlayer(notification)
 
   const headerRef = useRef<HTMLElement>(null)
   const ctaRef = useRef<HTMLElement>(null)
 
-  const animateHeader = createCallback(headerRef, playWoosh, 2000)
+  const animateHeader: ObserverCallback = (isVisible) => {
+    const {current} = headerRef
+    if(!current) return
+    if(isVisible) {
+      if(!current.classList.contains("animated")) setTimeout(playWoosh, 2000)
+      current.classList.add("animated")
+    } else {
+      current.classList.remove("animated")
+    }
+  }
+
+  const animateCta: ObserverCallback = (isVisible) => {
+    const {current} = ctaRef
+    if(!current) return
+
+    if(isVisible) {
+      if(!current.classList.contains("animated")) {
+        setTimeout(playNotification, 1000)
+        setTimeout(endNotification, 2000)
+        setTimeout(playNotification, 3000)
+      }
+      current.classList.add("animated")
+    } else {
+      current.classList.remove("animated")
+    }
+  }
 
   useObserver(headerRef, animateHeader)
+  useObserver(ctaRef, animateCta)
 
   return (
     <main>
@@ -123,7 +135,7 @@ const LandingPage = () => {
       </section>
 
       <section ref={ctaRef} className="bg-gradient-to-br from-slate-200 via-orange-200 to-stone-200">
-        <div className="flex flex-col px-4 py-16 gap-16" style={{backgroundImage: `url(${logo})`}}>
+        <div className="flex flex-col justify-around px-4 min-h-80 overflow-hidden" style={{backgroundImage: `url(${logo})`}}>
           <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
           <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
         </div>

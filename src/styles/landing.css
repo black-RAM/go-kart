@@ -23,10 +23,11 @@
 }
 
 .text-bubble {
-  @apply bg-blue-700 text-white p-4 rounded w-3/4 lg:max-w-max text-xl;
+  @apply bg-blue-700 text-white p-4 rounded max-w-[75%] lg:max-w-max text-xl relative;
 
-  --r: 1em; /* the radius */
-  --t: 1.5em; /* the size of the tail */
+  /* text bubble tail */
+  --r: 1em;
+  --t: 1.5em;
   border-inline: var(--t) solid #0000;
   border-radius: calc(var(--r) + var(--t))/var(--r);
   mask:
