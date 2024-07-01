@@ -1,25 +1,58 @@
 @keyframes slideX {
-  100% {
+  to {
     left: 0;
     right: 0;
   }
 }
 
-.animated :is(#cta-container, #welcome-container) {
+@keyframes orangeRedGlow {
+  0% {
+    color: #ea580c; /* orange-600 */
+  }
+
+  50% {
+    color: #dc2626; /* red-600 */
+  }
+
+  100% {
+    color: #ea580c; /* orange-600 */
+  }
+}
+
+@keyframes flowingGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.animated :is(#header-container, #welcome-container) {
   animation: 250ms ease-in-out 2s 1 forwards slideX;
 }
 
-#cta-container {
+#header-container {
   right: -50vw;
 
   h1 {
-    /* blue-950 */
-    text-shadow: -3px 3px 0px #172554;
+    animation: 4s linear infinite orangeRedGlow;
+    text-shadow: -3px 3px 0px #172554; /* blue-950 */
   }
 }
 
 #welcome-container {
   left: -50vw;
+}
+
+#cta {
+  background-size: 200% 200%;
+  animation: flowingGradient 5s infinite alternate;
 }
 
 .text-bubble {

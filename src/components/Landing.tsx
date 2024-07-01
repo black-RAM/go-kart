@@ -78,7 +78,7 @@ const LandingPage = () => {
     <main>
       <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
         <div className="relative overflow-hidden">
-          <div id="cta-container" className="h-full w-full absolute flex items-center p-8 backdrop-blur text-orange-600 hover:text-red-600 transition-colors duration-1000">
+          <div id="header-container" className="h-full w-full absolute flex items-center p-8 backdrop-blur">
             <h1 className="text-9xl text-right font-black uppercase">Let's Go Kart!</h1>
           </div>
         </div>
@@ -134,7 +134,7 @@ const LandingPage = () => {
         </section>
       </section>
 
-      <section ref={ctaRef} className="bg-gradient-to-br from-slate-200 via-orange-200 to-stone-200">
+      <section ref={ctaRef} className="bg-gradient-to-br from-violet-200 via-orange-200 to-stone-200" id="cta">
         <div className="flex flex-col justify-around px-4 min-h-80 overflow-hidden" style={{backgroundImage: `url(${logo})`}}>
           <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
           <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
