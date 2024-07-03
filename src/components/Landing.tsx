@@ -61,9 +61,9 @@ const LandingPage = () => {
 
     if(isVisible) {
       if(!current.classList.contains("animated")) {
-        setTimeout(playNotification, 1000)
-        setTimeout(endNotification, 2000)
-        setTimeout(playNotification, 3000)
+        setTimeout(playNotification, 200)
+        setTimeout(endNotification, 1600)
+        setTimeout(playNotification, 2000)
       }
       current.classList.add("animated")
     } else {
@@ -77,21 +77,21 @@ const LandingPage = () => {
   return (
     <main>
       <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
-        <div className="relative overflow-hidden">
-          <div id="header-container" className="h-full w-full absolute flex items-center p-8 backdrop-blur">
+        <div className="overflow-hidden">
+          <div id="header-container" className="h-full w-full flex items-center p-8 backdrop-blur">
             <h1 className="text-9xl text-right font-black uppercase">Let's Go Kart!</h1>
           </div>
         </div>
 
         <div className="relative overflow-hidden flex items-end">
-          <div id="welcome-container" className="absolute bg-zinc-50 bg-opacity-80 rounded-tr w-3/4 p-4 backdrop-blur-sm">
+          <div id="welcome-container" className="bg-zinc-50 bg-opacity-80 rounded-tr w-3/4 p-4 backdrop-blur-sm">
             <h2 className="text-3xl w-max p-2 font-bold text-slate-900 bg-zinc-50 shadow">Welcome to GoKart</h2>
             <p className="mt-2 text-lg font-semibold text-slate-800">Welcome to Go Kart – your ultimate destination for a shopping experience that’s as exhilarating as a high-speed race. Here, shopping isn't just an errand; it's an adventure. Imagine a place where every click and scroll is like taking a sharp turn on a thrilling race track, where the anticipation of finding that perfect item is as electrifying as the countdown before a race.</p>
           </div>
         </div>
       </header>
 
-      <section className="flex justify-center bg-fixed" style={{backgroundImage: "radial-gradient(#0284c7, #1e1b4b)"}}>
+      <section className="flex justify-center bg-fixed" id="floating-cards">
         <div className="flex gap-x-8 p-8">
           <div>
             <CustomTopBorder>
@@ -134,7 +134,7 @@ const LandingPage = () => {
         </section>
       </section>
 
-      <section ref={ctaRef} className="bg-gradient-to-br from-violet-200 via-orange-200 to-stone-200" id="cta">
+      <section ref={ctaRef} className="bg-gradient-to-br from-indigo-100 to-orange-100" id="cta">
         <div className="flex flex-col justify-around px-4 min-h-80 overflow-hidden" style={{backgroundImage: `url(${logo})`}}>
           <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
           <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
