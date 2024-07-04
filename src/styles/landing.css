@@ -65,11 +65,6 @@
   transform: translateX(-50vw);
 }
 
-#floating-cards {
-  /* blue-600 to indigo-950 */
-  background-image: radial-gradient(#0284c7, #1e1b4b)
-}
-
 #testimonials-wrapper {
   --card-count: 5;
   --track-width: 1500px;
