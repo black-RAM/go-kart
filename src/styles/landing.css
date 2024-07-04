@@ -44,8 +44,12 @@
   }
 }
 
-.animated :is(#header-container, #welcome-container) {
+#header-wrapper.animated :is(#header-container, #welcome-container) {
   animation: 250ms ease-in-out 2s 1 forwards slideX;
+}
+
+#header-wrapper {
+  height: calc(100vh - 76px)
 }
 
 #header-container {
@@ -62,7 +66,35 @@
 }
 
 #floating-cards {
+  /* blue-600 to indigo-950 */
   background-image: radial-gradient(#0284c7, #1e1b4b)
+}
+
+#testimonials-wrapper {
+  --card-count: 5;
+  --track-width: 1500px;
+  --track-gap: 32px;
+  --card-width: calc(var(--track-width) / var(--card-count));
+  --card-border-box: calc(var(--card-width) + var(--track-gap));
+  --frame-width: calc(50vw - (var(--card-border-box) / 2))
+}
+
+#testimonials-overlay {
+  border-left-width: var(--frame-width);
+  border-right-width: var(--frame-width);
+}
+
+#testimonials {
+  @apply grid relative p-4;
+  left: var(--frame-width);
+  grid-template-columns: repeat(var(--card-count), var(--card-width));
+  column-gap: var(--track-gap);
+  transform: translateX(calc(-1 * var(--card-border-box) * (var(--card-count) - 1)));
+  animation: slideX 20s steps(var(--card-count), jump-none) paused infinite alternate;
+}
+
+.animated #testimonials {
+  animation-play-state: running;
 }
 
 #cta {
@@ -71,7 +103,7 @@
 }
 
 .text-bubble {
-  @apply bg-blue-700 text-white p-4 rounded max-w-[75%] lg:max-w-max text-xl relative;
+  @apply bg-blue-700 bg-opacity-95 text-white p-4 rounded max-w-[75%] lg:max-w-max text-xl relative;
 
   /* text bubble tail */
   --r: 1em;
@@ -93,12 +125,12 @@
   @apply self-end text-right rounded-br-none opacity-0 translate-y-16;
 }
 
-.animated .left {
+#cta.animated .left {
   animation: slideY 500ms ease-in-out 100ms 1 forwards,
     opaque 500ms ease-in 100ms 1 forwards;
 }
 
-.animated .right {
+#cta.animated .right {
   animation: slideY 500ms ease-in-out 2s 1 forwards,
     opaque 500ms ease-in 2s 1 forwards;
 }

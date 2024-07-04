@@ -11,6 +11,7 @@ import customer3 from "../assets/petr-sevcovic-e12wQLAjQi0-unsplash(1).jpg"
 import customer4 from "../assets/prince-akachi-4Yv84VgQkRM-unsplash(1).jpg"
 import customer5 from "../assets/prince-akachi-J1OScm_uHUQ-unsplash(1).jpg"
 import notification from "../assets/notification.mp3"
+import cameraSound from "../assets/cameraSound.mp3"
 import logo from "/kart.png"
 import "../styles/landing.css"
 
@@ -19,7 +20,7 @@ interface Parent{
 }
 
 const CustomTopBorder: React.FC<Parent> = ({children}) => 
-  <article className="max-w-80 h-[30rem] mb-8 rounded bg-zinc-300 bg-opacity-75">
+  <article className="max-w-80 h-[30rem] mb-8 rounded bg-zinc-300 bg-opacity-75 overflow-hidden">
     <div className="border-t-8 border-l-8 border-r-8 border-zinc-200 rounded h-52"></div>
     <div className="mx-8 relative -top-44">{children}</div>
   </article>
@@ -31,18 +32,21 @@ interface TestimonialProps {
 }
 
 const Testimonial: React.FC<TestimonialProps> = ({imgUrl, testimony, witness}) => 
-  <article className="bg-rose-800 rounded-sm grow basis-60 flex flex-col items-center text-center gap-4 p-4">
+  <li className="bg-rose-800 rounded-sm flex flex-col items-center text-center gap-4 p-4">
     <img src={imgUrl} alt="smiling person" className="size-32 rounded-full" />
     <p className="text-zinc-50">{testimony}</p>
     <p className="text-zinc-100 italic">- {witness}</p>
-  </article>
+  </li>
 
 const LandingPage = () => {
   const [playWoosh] = usePlayer(woosh)
   const [playNotification, endNotification] = usePlayer(notification)
+  const [playCamera, endCamera] = usePlayer(cameraSound)
 
   const headerRef = useRef<HTMLElement>(null)
   const ctaRef = useRef<HTMLElement>(null)
+  const testimonialsRef = useRef<HTMLDivElement>(null)
+  const testimonialSoundRef = useRef<number | null>(null)
 
   const animateHeader: ObserverCallback = (isVisible) => {
     const {current} = headerRef
@@ -71,12 +75,30 @@ const LandingPage = () => {
     }
   }
 
+  const animateTestimonials: ObserverCallback = (isVisible) => {
+    const {current} = testimonialsRef
+    if(!current) return
+    if(isVisible) {
+      const camera = () => {
+        playCamera()
+        setTimeout(endCamera, 1000)
+      }
+      camera()
+      testimonialSoundRef.current = setInterval(camera, 4000)
+      current.classList.add("animated")
+    } else {
+      if(testimonialSoundRef.current) clearInterval(testimonialSoundRef.current)
+      current.classList.remove("animated")
+    }
+  }
+
   useObserver(headerRef, animateHeader)
-  useObserver(ctaRef, animateCta)
+  useObserver(ctaRef, animateCta, 0.6)
+  useObserver(testimonialsRef, animateTestimonials, 1)
 
   return (
     <main>
-      <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" style={{height: "calc(100vh - 76px)", backgroundImage: `url(${mallBackground})`}}>
+      <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" id="header-wrapper" style={{backgroundImage: `url(${mallBackground})`}}>
         <div className="overflow-hidden">
           <div id="header-container" className="h-full w-full flex items-center p-8 backdrop-blur">
             <h1 className="text-9xl text-right font-black uppercase">Let's Go Kart!</h1>
@@ -119,22 +141,25 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-indigo-950 to-rose-950 p-4">
+      <section className="bg-gradient-to-b from-[#144077] via-cyan-800 to-emerald-700 py-4">
         <hgroup className="text-zinc-100 text-center my-4">
           <h3 className="font-light text-2xl">What Our Customers</h3>
           <h2 className="font-bold text-4xl">Are Saying</h2>
         </hgroup>
 
-        <section className="flex flex-wrap justify-center gap-6 overflow-y-scroll">
-          <Testimonial imgUrl={customer1} testimony="I was skeptical at first, but GoKart exceeded my expectations. Great prices, quality products, and hassle-free returns. Highly recommend!" witness="Michael R." />
-          <Testimonial imgUrl={customer2} testimony="GoKart is a game-changer. Amazing variety, detailed descriptions, and top-notch customer service. They've earned my trust!" witness="Emily J." />
-          <Testimonial imgUrl={customer3} testimony="Incredible selection and unbeatable prices on GoKart. Easy navigation, fast shipping, and secure payments. I can't shop anywhere else now!" witness="David K." />
-          <Testimonial imgUrl={customer4} testimony="GoKart has transformed my online shopping experience! Fast shipping, excellent customer service, and a user-friendly site. My go-to for everything!" witness="Arthur M."/>
-          <Testimonial imgUrl={customer5} testimony="Positive experiences all around with GoKart. Great interface, prompt delivery, and excellent product quality. Love it!" witness="Sarah T."/>
-        </section>
+        <div ref={testimonialsRef} className="relative overflow-hidden" id="testimonials-wrapper">
+          <div className="absolute inset-0 z-10 pointer-events-none border-black border-opacity-50" id="testimonials-overlay"></div>
+          <ul id="testimonials">
+            <Testimonial imgUrl={customer1} testimony="I was skeptical at first, but GoKart exceeded my expectations. Great prices, quality products, and hassle-free returns. Highly recommend!" witness="Michael R." />
+            <Testimonial imgUrl={customer2} testimony="GoKart is a game-changer. Amazing variety, detailed descriptions, and top-notch customer service. They've earned my trust!" witness="Emily J." />
+            <Testimonial imgUrl={customer3} testimony="Incredible selection and unbeatable prices on GoKart. Easy navigation, fast shipping, and secure payments. I can't shop anywhere else now!" witness="David K." />
+            <Testimonial imgUrl={customer4} testimony="GoKart has transformed my online shopping experience! Fast shipping, excellent customer service, and a user-friendly site. My go-to for everything!" witness="Arthur M."/>
+            <Testimonial imgUrl={customer5} testimony="Positive experiences all around with GoKart. Great interface, prompt delivery, and excellent product quality. Love it!" witness="Sarah T."/>
+          </ul>
+        </div>
       </section>
 
-      <section ref={ctaRef} className="bg-gradient-to-br from-indigo-100 to-orange-100" id="cta">
+      <section ref={ctaRef} className="bg-gradient-to-br from-emerald-200 via-amber-200 to-red-200" id="cta">
         <div className="flex flex-col justify-around px-4 min-h-80 overflow-hidden" style={{backgroundImage: `url(${logo})`}}>
           <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
           <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
