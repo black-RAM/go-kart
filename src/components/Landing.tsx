@@ -1,4 +1,5 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef } from "react"
+import * as Plot from "@observablehq/plot"
 import usePlayer from "../hooks/usePlayer"
 import ObserverCallback from "../types/ObserverCallback"
 import useObserver from "../hooks/useObserver"
@@ -15,6 +16,9 @@ import customer5 from "../assets/prince-akachi-J1OScm_uHUQ-unsplash(1).jpg"
 import notification from "../assets/notification.mp3"
 import cameraSound from "../assets/cameraSound.mp3"
 import logo from "/kart.png"
+
+import customerGrowthData from "../assets/customerGrowth.json"
+
 import "../styles/landing.css"
 
 interface TestimonialProps {
@@ -87,6 +91,28 @@ const LandingPage = () => {
   useObserver(ctaRef, animateCta, 0.6)
   useObserver(testimonialsRef, animateTestimonials, 1)
 
+  const customerGrowthGraphRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const customerGrowthDataTyped = customerGrowthData.map(({ year, customers, type }) => ({
+      year: new Date(year, 0, 1),
+      customers,
+      type
+    }))
+
+    const customerGrowthGraph = Plot.plot({
+      y: {grid: true},
+      color: {legend: true},
+      marks: [
+        Plot.areaY(customerGrowthDataTyped, {x: "year", y: "customers", fill: "type", fillOpacity: 0.6}),
+      ]
+    })
+    customerGrowthGraphRef.current?.appendChild(customerGrowthGraph)
+    
+    return () => {
+      customerGrowthGraph.remove()
+    }
+  }, [])
+
   return (
     <main>
       <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" id="header-wrapper" style={{backgroundImage: `url(${mallBackground})`}}>
@@ -106,15 +132,25 @@ const LandingPage = () => {
         </div>
       </header>
 
-      <section className="h-96 bg-fixed bg-cover" style={{backgroundImage: `url(${cuboids3DArt})`}}></section>
+      <section className="h-96 bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${cuboids3DArt})`}}></section>
 
       <section className="grid grid-rows-3 md:grid-cols-3">
-        <article className="row-span-2 col-span-2 bg-zinc-100 h-96"></article>
-        <article className="col-start-3 row-span-3 bg-stone-600"></article>
+        <article className="row-span-2 col-span-2 bg-zinc-100 p-2">
+          <h2 className="text-5xl text-zinc-800 font-black uppercase">Here are the <b className="text-blue-800">facts</b></h2>
+          <div className="grid lg:grid-cols-[75%_25%] xl:grid-cols-[640px_1fr]">
+            <div ref={customerGrowthGraphRef}></div>
+            <div className="flex flex-col justify-center p-4">
+              <h3 className="text-lg capitalize underline">Unprecedented customer <b>growth</b></h3>
+              <p>Our customer base has surged from zero to 25,000 in just 20 years.</p>
+              <p>Join thousands of satisfied shoppers and experience why GoKart is the go-to destination for all your needs.</p>
+            </div>
+          </div>
+        </article>
+        <article className="col-start-3 row-span-3 bg-zinc-600"></article>
         <article className="col-start-1 col-span-2 row-start-3 bg-slate-950"></article>
       </section>
       
-      <section className="h-96 bg-fixed bg-cover" style={{backgroundImage: `url(${squarePrisms3DArt})`}}></section>
+      <section className="h-96 bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${squarePrisms3DArt})`}}></section>
 
       <section className="bg-gradient-to-b from-indigo-950 to-rose-950 py-4">
         <hgroup className="text-zinc-100 text-center my-4">
@@ -134,7 +170,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section ref={ctaRef} className="bg-gradient-to-br from-rose-100 via-orange-100 to-amber-100" id="cta">
+      <section ref={ctaRef} className="bg-gradient-to-br from-slate-200 to-red-200" id="cta">
         <div className="flex flex-col justify-around px-4 min-h-80 overflow-hidden" style={{backgroundImage: `url(${logo})`}}>
           <p className="text-bubble left">Ready to experience the thrill of seamless online shopping?</p>
           <p className="text-bubble right">Start your engines and shop at GoKart today for unbeatable speed, service, and quality!</p>
