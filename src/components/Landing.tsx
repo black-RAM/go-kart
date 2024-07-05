@@ -1,9 +1,14 @@
+// libraries
 import React, { useEffect, useRef } from "react"
 import * as Plot from "@observablehq/plot"
+import * as d3 from "d3"
+// hooks
 import usePlayer from "../hooks/usePlayer"
-import ObserverCallback from "../types/ObserverCallback"
 import useObserver from "../hooks/useObserver"
-
+import useVW from "../hooks/useVW"
+// types
+import ObserverCallback from "../types/ObserverCallback"
+// assets
 import woosh from "../assets/whoosh.mp3"
 import mallBackground from "../assets/mallBackground.jpg"
 import cuboids3DArt from "../assets/milad-fakurian-9waPFLIzs1E-unsplash.jpg"
@@ -16,9 +21,8 @@ import customer5 from "../assets/prince-akachi-J1OScm_uHUQ-unsplash(1).jpg"
 import notification from "../assets/notification.mp3"
 import cameraSound from "../assets/cameraSound.mp3"
 import logo from "/kart.png"
-
 import customerGrowthData from "../assets/customerGrowth.json"
-
+import productCategories from "../assets/productCategories.json"
 import "../styles/landing.css"
 
 interface TestimonialProps {
@@ -38,6 +42,7 @@ const LandingPage = () => {
   const [playWoosh] = usePlayer(woosh)
   const [playNotification, endNotification] = usePlayer(notification)
   const [playCamera, endCamera] = usePlayer(cameraSound)
+  const vw = useVW()
 
   const headerRef = useRef<HTMLElement>(null)
   const ctaRef = useRef<HTMLElement>(null)
@@ -92,6 +97,8 @@ const LandingPage = () => {
   useObserver(testimonialsRef, animateTestimonials, 1)
 
   const customerGrowthGraphRef = useRef<HTMLDivElement>(null)
+
+  // customer growth area graph
   useEffect(() => {
     const customerGrowthDataTyped = customerGrowthData.map(({ year, customers, type }) => ({
       year: new Date(year, 0, 1),
@@ -107,11 +114,67 @@ const LandingPage = () => {
       ]
     })
     customerGrowthGraphRef.current?.appendChild(customerGrowthGraph)
-    
+
     return () => {
       customerGrowthGraph.remove()
     }
   }, [])
+
+  // product-category distribution pie chart
+  useEffect(() => {
+    const width = vw * 30
+    const height = width
+    const radius = width / 2
+    
+    const categories = productCategories.map(cat => cat.category)
+    const categoryCounts = productCategories.map(cat => cat.count)
+    const productSum = categoryCounts.reduce((a, b) => a + b)
+    const categoryPercentages = categoryCounts.map(count => count / productSum * 100)
+
+    // append the svg element
+    const pieChartContainer = d3.select("#category-pie-chart")
+
+    const pieChartSvg = pieChartContainer.append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    // monochromatic color scale: blue 800 600 200 and 100
+    const color = d3.scaleOrdinal().range(["#1e40af", "#2563eb", "#60a5fa", "#bfdbfe"])
+
+    // Compute the position of each group on the pie:
+    const arcData = d3.pie()(categoryCounts)
+
+    // shape helper to build arcs:
+    const arcGenerator = d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius)
+
+    // Build the pie chart
+    pieChartSvg
+      .selectAll('mySlices')
+      .data(arcData)
+      .join('path')
+        .attr('d', (d) => arcGenerator(d as unknown as d3.DefaultArcObject))
+        .attr('fill', (_, i) => color(categories[i]) as string)
+        .attr("stroke", "#172554") // blue-950 (same as background)
+        .style("stroke-width", "2px")
+
+    // Adding annotations, using centroid method for positioning
+    pieChartSvg
+      .selectAll('mySlices')
+      .data(arcData)
+      .join("text")
+      .text((_, i) => `${categoryPercentages[i]}% - ${categories[i]}`)
+      .attr("transform", d => `translate(${arcGenerator.centroid(d as unknown as d3.DefaultArcObject)})`)
+      .style("text-anchor", "middle")
+
+    return () => {
+      pieChartContainer.selectAll("svg").remove()
+      pieChartContainer.selectAll("text").remove()
+    }
+  }, [vw])
 
   return (
     <main>
@@ -134,9 +197,9 @@ const LandingPage = () => {
 
       <section className="h-96 bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${cuboids3DArt})`}}></section>
 
-      <section className="grid grid-rows-3 md:grid-cols-3">
-        <article className="row-span-2 col-span-2 bg-zinc-100 p-2">
-          <h2 className="text-5xl text-zinc-800 font-black uppercase">Here are the <b className="text-blue-800">facts</b></h2>
+      <section className="sm:grid grid-rows-3 grid-cols-3">
+        <article className="row-span-2 col-span-2 bg-zinc-100 text-zinc-800 p-2">
+          <h2 className="text-5xl font-black uppercase">Here are the <b className="text-blue-800">facts</b></h2>
           <div className="grid lg:grid-cols-[75%_25%] xl:grid-cols-[640px_1fr]">
             <div ref={customerGrowthGraphRef}></div>
             <div className="flex flex-col justify-center p-4">
@@ -146,7 +209,12 @@ const LandingPage = () => {
             </div>
           </div>
         </article>
-        <article className="col-start-3 row-span-3 bg-zinc-600"></article>
+
+        <article className="col-start-3 row-span-3 p-4 bg-blue-950 text-center">
+          <h3 className="text-zinc-50 font-bold text-xl capitalize">A wealth of product categories</h3>
+          <figure id="category-pie-chart" className="flex justify-center my-4"></figure>
+          <p className="text-zinc-200">Understand the variety of products we offer by exploring the distribution of items across different categories. This breakdown highlights our diverse inventory, ensuring something for everyone.</p>
+        </article>
         <article className="col-start-1 col-span-2 row-start-3 bg-slate-950"></article>
       </section>
       
