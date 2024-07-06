@@ -122,7 +122,7 @@ const LandingPage = () => {
 
   // product-category distribution pie chart
   useEffect(() => {
-    const width = vw * 30
+    const width = Math.max(vw * 30, 256)
     const height = width
     const radius = width / 2
     
@@ -148,31 +148,43 @@ const LandingPage = () => {
 
     // shape helper to build arcs:
     const arcGenerator = d3.arc()
-      .innerRadius(0)
+      .innerRadius(radius * 0.6)
       .outerRadius(radius)
 
     // Build the pie chart
     pieChartSvg
-      .selectAll('mySlices')
+      .selectAll("sectors")
       .data(arcData)
-      .join('path')
-        .attr('d', (d) => arcGenerator(d as unknown as d3.DefaultArcObject))
-        .attr('fill', (_, i) => color(categories[i]) as string)
+      .join("path")
+        .attr("d", (d) => arcGenerator(d as unknown as d3.DefaultArcObject))
+        .attr("fill", (_, i) => color(categories[i]) as string)
         .attr("stroke", "#172554") // blue-950 (same as background)
         .style("stroke-width", "2px")
 
-    // Adding annotations, using centroid method for positioning
-    pieChartSvg
-      .selectAll('mySlices')
+    // Legend using HTML, grid layout, tailwind, etc because those are more intuitive
+    const legend = d3.select("#category-pie-chart-legend")
+
+    legend.style("max-width", `${width * 0.5}px`)
+
+    legend
+      .selectAll("series")
       .data(arcData)
-      .join("text")
+      .join("div")
+      .style("background-color", (_, i) => String(color(categories[i])))
+      .style("grid-row-start", (_, i) => String(i + 1))
+      .attr("class", "size-4 col-start-1 mt-1")
+
+    legend
+      .selectAll("keys")
+      .data(arcData)
+      .join("p")
       .text((_, i) => `${categoryPercentages[i]}% - ${categories[i]}`)
-      .attr("transform", d => `translate(${arcGenerator.centroid(d as unknown as d3.DefaultArcObject)})`)
-      .style("text-anchor", "middle")
+      .style("grid-row-start", (_, i) => String(i + 1))
+      .attr("class", "col-start-2 text-xs lg:text-sm")
 
     return () => {
       pieChartContainer.selectAll("svg").remove()
-      pieChartContainer.selectAll("text").remove()
+      legend.html("")
     }
   }, [vw])
 
@@ -204,16 +216,24 @@ const LandingPage = () => {
             <div ref={customerGrowthGraphRef}></div>
             <div className="flex flex-col justify-center p-4">
               <h3 className="text-lg capitalize underline">Unprecedented customer <b>growth</b></h3>
-              <p>Our customer base has surged from zero to 25,000 in just 20 years.</p>
-              <p>Join thousands of satisfied shoppers and experience why GoKart is the go-to destination for all your needs.</p>
+              <p>Our customer base has surged from zero to 25,000 in just 20 years. Join thousands of satisfied shoppers and experience why GoKart is the go-to destination for all your needs.</p>
             </div>
           </div>
         </article>
 
-        <article className="col-start-3 row-span-3 p-4 bg-blue-950 text-center">
-          <h3 className="text-zinc-50 font-bold text-xl capitalize">A wealth of product categories</h3>
-          <figure id="category-pie-chart" className="flex justify-center my-4"></figure>
-          <p className="text-zinc-200">Understand the variety of products we offer by exploring the distribution of items across different categories. This breakdown highlights our diverse inventory, ensuring something for everyone.</p>
+        <article className="col-start-3 row-span-3 p-4 bg-blue-950">
+          <h3 className="text-zinc-50 font-bold text-xl capitalize text-center">A wealth of product categories</h3>
+          <div className="flex flex-wrap justify-center gap-x-4">
+            <figure className="relative basis-[max(30vw,256px)] my-8">
+              <div id="category-pie-chart"></div>
+              <div className="absolute inset-0 grid justify-center items-center">
+                <caption id="category-pie-chart-legend" className="grid grid-cols-[min-content_1fr] gap-x-1 justify-center text-zinc-400 text-left"></caption>
+              </div>
+            </figure>
+            <div className="flex items-center basis-64 grow">
+              <p className="text-zinc-200 text-center">Understand the variety of products we offer by exploring the distribution of items across different categories. This breakdown highlights our diverse inventory, ensuring something for everyone.</p>
+            </div>
+          </div>
         </article>
         <article className="col-start-1 col-span-2 row-start-3 bg-slate-950"></article>
       </section>
