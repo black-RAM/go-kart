@@ -24,8 +24,7 @@ import cameraSound from "../assets/cameraSound.mp3"
 import logo from "/kart.png"
 import customerGrowthData from "../assets/customerGrowth.json"
 import productCategories from "../assets/productCategories.json"
-import usaTopology from "../assets/usaTopology.json"
-import usaEducation from "../assets/usaEducation.json"
+import usaTopology from "../assets/counties-10m.json"
 import "../styles/landing.css"
 
 interface TestimonialProps {
@@ -99,9 +98,8 @@ const LandingPage = () => {
   useObserver(ctaRef, animateCta, 0.6)
   useObserver(testimonialsRef, animateTestimonials, 1)
 
-  const customerGrowthGraphRef = useRef<HTMLElement>(null)
-
   // customer growth area graph
+  const customerGrowthGraphRef = useRef<HTMLElement>(null)
   useEffect(() => {
     const customerGrowthDataTyped = customerGrowthData.map(({ year, customers, type }) => ({
       year: new Date(year, 0, 1),
@@ -191,49 +189,22 @@ const LandingPage = () => {
     }
   }, [vw])
 
-  // choropleth, copied from my work at: https://codepen.io/black-ram/pen/PoLpLpp
+  // choropleth
+  const choroplethRef = useRef<HTMLElement>(null)
   useEffect(() => {
-  const container = d3.select("#choropleth")
-
-  const svg = container
-    .append("svg")
-    .attr("width", 900)
-    .attr("height", 600)
-
-  const pathGenerator = d3.geoPath()
-  const map = svg.append("g")
-
-  const color = d3.scaleQuantize()
-    .domain(d3.extent(usaEducation.map(county => county["bachelorsOrHigher"])))
-    .range(d3.schemeGreens[9])
-
-  const get = (fips, info = "bachelorsOrHigher") => {
-    return usaEducation.find(c => c["fips"] == fips)[info]
-  }
-  
-  const geojson = topojson.feature(usaTopology, usaTopology.objects.counties)
-  
-  map.selectAll("path")
-    .data(geojson.features)
-    .enter()
-    .append("path")
-    .attr("d", pathGenerator)
-    .attr("fill", d => color(get(d["id"])))
-    .attr("class", "county")
-    .attr("data-fips", d => d["id"])
-    .attr("data-education", d => get(d["id"]))
-
-  // state borders
-  svg.append("path")
-    .classed("stateBorder", true)
-    .attr("fill", "none")
-    .attr("stroke", "black")
-    .datum(topojson.mesh(usaTopology, usaTopology.objects.states), (a, b) => a !== b)
-    .attr('d', pathGenerator)
-
-  return () => {
-    container.html("")
-  }
+    // @ts-expect-error because vite imports files as strings
+    const geo = topojson.feature(usaTopology, usaTopology.objects.counties)
+    const map = Plot.plot({
+      width: 60 * vw,
+      projection: "albers-usa",
+      marks: [
+        Plot.geo(geo, {stroke: "#e2e8f0"}) // slate-200 
+      ]
+    })
+    choroplethRef.current?.appendChild(map)
+    return () => {
+      map.remove()
+    }
   }, [vw])
 
   return (
@@ -285,8 +256,8 @@ const LandingPage = () => {
         </article>
 
         <article className="col-start-1 col-span-2 row-start-3 row-span-2 p-2 bg-slate-800">
-          <h3 className="text-3xl text-slate-100 font-bold capitalize">Nation-wide adoption</h3>
-          <figure id="choropleth"></figure>
+          <h3 className="text-3xl text-center text-slate-100 font-bold capitalize">Nation-wide adoption</h3>
+          <figure ref={choroplethRef}></figure>
         </article>
 
         <article className="col-start-3 row-start-4 bg-zinc-900"></article>
