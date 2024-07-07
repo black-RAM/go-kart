@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from "react"
 import * as Plot from "@observablehq/plot"
 import * as d3 from "d3"
+import * as topojson from "topojson-client"
 // hooks
 import usePlayer from "../hooks/usePlayer"
 import useObserver from "../hooks/useObserver"
@@ -23,6 +24,8 @@ import cameraSound from "../assets/cameraSound.mp3"
 import logo from "/kart.png"
 import customerGrowthData from "../assets/customerGrowth.json"
 import productCategories from "../assets/productCategories.json"
+import usaTopology from "../assets/usaTopology.json"
+import usaEducation from "../assets/usaEducation.json"
 import "../styles/landing.css"
 
 interface TestimonialProps {
@@ -96,7 +99,7 @@ const LandingPage = () => {
   useObserver(ctaRef, animateCta, 0.6)
   useObserver(testimonialsRef, animateTestimonials, 1)
 
-  const customerGrowthGraphRef = useRef<HTMLDivElement>(null)
+  const customerGrowthGraphRef = useRef<HTMLElement>(null)
 
   // customer growth area graph
   useEffect(() => {
@@ -188,6 +191,51 @@ const LandingPage = () => {
     }
   }, [vw])
 
+  // choropleth, copied from my work at: https://codepen.io/black-ram/pen/PoLpLpp
+  useEffect(() => {
+  const container = d3.select("#choropleth")
+
+  const svg = container
+    .append("svg")
+    .attr("width", 900)
+    .attr("height", 600)
+
+  const pathGenerator = d3.geoPath()
+  const map = svg.append("g")
+
+  const color = d3.scaleQuantize()
+    .domain(d3.extent(usaEducation.map(county => county["bachelorsOrHigher"])))
+    .range(d3.schemeGreens[9])
+
+  const get = (fips, info = "bachelorsOrHigher") => {
+    return usaEducation.find(c => c["fips"] == fips)[info]
+  }
+  
+  const geojson = topojson.feature(usaTopology, usaTopology.objects.counties)
+  
+  map.selectAll("path")
+    .data(geojson.features)
+    .enter()
+    .append("path")
+    .attr("d", pathGenerator)
+    .attr("fill", d => color(get(d["id"])))
+    .attr("class", "county")
+    .attr("data-fips", d => d["id"])
+    .attr("data-education", d => get(d["id"]))
+
+  // state borders
+  svg.append("path")
+    .classed("stateBorder", true)
+    .attr("fill", "none")
+    .attr("stroke", "black")
+    .datum(topojson.mesh(usaTopology, usaTopology.objects.states), (a, b) => a !== b)
+    .attr('d', pathGenerator)
+
+  return () => {
+    container.html("")
+  }
+  }, [vw])
+
   return (
     <main>
       <header ref={headerRef} className="grid grid-cols-2 bg-center bg-cover" id="header-wrapper" style={{backgroundImage: `url(${mallBackground})`}}>
@@ -209,11 +257,11 @@ const LandingPage = () => {
 
       <section className="h-96 bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${cuboids3DArt})`}}></section>
 
-      <section className="sm:grid grid-rows-3 grid-cols-3">
+      <section className="sm:grid grid-rows-[min-content_min-content_1fr_1fr] grid-cols-3">
         <article className="row-span-2 col-span-2 bg-zinc-100 text-zinc-800 p-2">
           <h2 className="text-5xl font-black uppercase">Here are the <b className="text-blue-800">facts</b></h2>
           <div className="grid lg:grid-cols-[75%_25%] xl:grid-cols-[640px_1fr]">
-            <div ref={customerGrowthGraphRef}></div>
+            <figure ref={customerGrowthGraphRef}></figure>
             <div className="flex flex-col justify-center p-4">
               <h3 className="text-lg capitalize underline">Unprecedented customer <b>growth</b></h3>
               <p>Our customer base has surged from zero to 25,000 in just 20 years. Join thousands of satisfied shoppers and experience why GoKart is the go-to destination for all your needs.</p>
@@ -235,7 +283,13 @@ const LandingPage = () => {
             </div>
           </div>
         </article>
-        <article className="col-start-1 col-span-2 row-start-3 bg-slate-950"></article>
+
+        <article className="col-start-1 col-span-2 row-start-3 row-span-2 p-2 bg-slate-800">
+          <h3 className="text-3xl text-slate-100 font-bold capitalize">Nation-wide adoption</h3>
+          <figure id="choropleth"></figure>
+        </article>
+
+        <article className="col-start-3 row-start-4 bg-zinc-900"></article>
       </section>
       
       <section className="h-96 bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${squarePrisms3DArt})`}}></section>
