@@ -25,6 +25,7 @@ import logo from "/kart.png"
 import customerGrowthData from "../assets/customerGrowth.json"
 import productCategories from "../assets/productCategories.json"
 import usaTopology from "../assets/counties-10m.json"
+import marketSharesCSV from "../assets/broadband_long2000-2018rev.csv?raw"
 import "../styles/landing.css"
 
 interface TestimonialProps {
@@ -192,15 +193,39 @@ const LandingPage = () => {
   // choropleth
   const choroplethRef = useRef<HTMLElement>(null)
   useEffect(() => {
+    const marketSharesJSON = d3.csvParse(marketSharesCSV)
+    const marketShare2018 = marketSharesJSON.filter(county => +county.year === 2018)
+    // const marketShare2018Array = 
+    const marketShare2018Map = new Map(marketShare2018.map(({cfips, market_share}) => [cfips, +market_share]))
+
     // @ts-expect-error because vite imports files as strings
-    const geo = topojson.feature(usaTopology, usaTopology.objects.counties)
+    const counties = topojson.feature(usaTopology, usaTopology.objects.counties)
+    // @ts-expect-error because vite imports files as strings
+    const states = topojson.feature(usaTopology, usaTopology.objects.states)
+
     const map = Plot.plot({
       width: 60 * vw,
       projection: "albers-usa",
       marks: [
-        Plot.geo(geo, {stroke: "#e2e8f0"}) // slate-200 
-      ]
+        Plot.geo(counties, {
+          fill: (d) => marketShare2018Map.get(d.id),
+        }),
+        Plot.geo(states, {
+          stroke: "#f8fafc", // slate-50
+          strokeWidth: 0.5,
+        })
+      ],
+      color: {
+        scheme: "spectral",
+        unknown: "#334155", // slate-700
+        type: "linear",
+        legend: true,
+        label: "% GoKart market share per US county",
+        percent: true,
+        domain: [0, 100]
+      }
     })
+
     choroplethRef.current?.appendChild(map)
     return () => {
       map.remove()
@@ -257,7 +282,7 @@ const LandingPage = () => {
 
         <article className="col-start-1 col-span-2 row-start-3 row-span-2 p-2 bg-slate-800">
           <h3 className="text-3xl text-center text-slate-100 font-bold capitalize">Nation-wide adoption</h3>
-          <figure ref={choroplethRef}></figure>
+          <figure ref={choroplethRef} className="flex justify-center"></figure>
         </article>
 
         <article className="col-start-3 row-start-4 bg-zinc-900"></article>

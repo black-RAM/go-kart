@@ -1,4 +1,4 @@
-state_name,county,year,id,broadband,cfips
+state_name,county,year,id,market_share,cfips
 Alabama,Autauga County,2000,0500000US01001,,1001
 Alabama,Autauga County,2001,0500000US01001,,1001
 Alabama,Autauga County,2002,0500000US01001,,1001
