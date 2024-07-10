@@ -65,6 +65,11 @@
   transform: translateX(-50vw);
 }
 
+/* legend of choropleth in data story */
+.plot-d6a7b5-ramp {
+  @apply text-slate-400
+}
+
 #testimonials-wrapper {
   --card-count: 5;
   --track-width: 1500px;
