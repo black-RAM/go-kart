@@ -189,7 +189,7 @@ const MarketShareChoropleth = () => {
           <input type="range" min={2006} max={2024} value={year} onChange={(e) => setYear(+e.target.value)} className="sm:max-w-[14vw] lg:w-64" />
           <h4 className="bg-gradient-to-b from-slate-500 to-slate-600 shadow-sm shadow-slate-700 p-1 rounded font-bold text-slate-300 w-12 text-center">{year}</h4>
         </label>
-        <caption className="text-slate-600 order-1 my-2">States that are not shaded were not included in the survey.</caption>
+        <caption className="text-slate-600 order-1 my-2 text-xs sm:text-base">States that are not shaded were not included in the survey.</caption>
       </figure>
       <p className="text-center text-slate-200 my-4">Explore our nationwide customer base with this interactive choropleth map, showcasing GoKart's reach across the United States. See how our products have been widely adopted from coast to coast, reflecting our growth and popularity.</p>
     </article>
@@ -197,9 +197,9 @@ const MarketShareChoropleth = () => {
 }
 
 const TotalSales = () => {
-  return <article className="col-start-3 row-start-4 bg-black flex flex-wrap items-center p-4 gap-1">
-    <h4 className="font-black text-white text-9xl underline">1M</h4>
-    <p className="text-slate-200">Sales since we were founded.</p>
+  return <article className="col-start-3 row-start-4 bg-black flex flex-wrap items-center justify-center p-4">
+    <h4 className="font-black text-white text-9xl underline h-min">1M</h4>
+    <p className="text-slate-200 w-32 basis-32 h-min">Sales since we were founded.</p>
   </article>
 }
 

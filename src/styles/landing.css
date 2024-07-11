@@ -44,28 +44,40 @@
   }
 }
 
-#header-wrapper.animated :is(#header-container, #welcome-container) {
-  animation: 250ms ease-in-out 2s 1 forwards slideX;
-}
-
-#header-wrapper {
-  height: calc(100vh - 76px)
-}
-
-#header-container {
-  transform: translateX(50vw);
-
-  h1 {
-    animation: 4s linear infinite orangeRedGlow;
-    text-shadow: -3px 3px 0px #172554; /* blue-950 */
+@media screen and (max-width: 1024px) {
+  #hero-wrapper {
+    --x-offset: 100vw;
   }
 }
 
-#welcome-container {
-  transform: translateX(-50vw);
+@media screen and (min-width: 1024px) {
+  #hero-wrapper {
+    --x-offset: 50vw;
+  }
 }
 
-/* legend of choropleth in data story */
+#hero-wrapper.animated :is(#header-container, #welcome-container) {
+  animation: 250ms ease-in-out 2s 1 forwards slideX;
+}
+
+#welcome-container {
+  transform: translateX(calc(-1 * var(--x-offset)));
+}
+
+#header-container {
+  transform: translateX(var(--x-offset));
+}
+
+#hero-header {
+  animation: 4s linear infinite orangeRedGlow;
+  text-shadow: -3px 3px 0px #172554; /* blue-950 */
+}
+
+/* choropleth in data story */
+.plot-d6a7b5-figure {
+  @apply grid justify-center
+}
+
 .plot-d6a7b5-ramp {
   @apply text-slate-400
 }
@@ -103,7 +115,7 @@
 }
 
 .text-bubble {
-  @apply bg-blue-700 bg-opacity-95 text-white p-4 rounded max-w-[75%] lg:max-w-max text-xl relative;
+  @apply bg-blue-700 bg-opacity-95 text-white p-4 rounded sm:max-w-[75%] lg:max-w-max sm:text-xl relative;
 
   /* text bubble tail */
   --r: 1em;
