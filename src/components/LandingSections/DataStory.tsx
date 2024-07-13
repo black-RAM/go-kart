@@ -7,6 +7,10 @@ import productCategories from "../../assets/productCategories.json"
 import usaTopology from "../../assets/counties-10m.json"
 import marketSharesCSV from "../../assets/broadband_long2000-2018rev.csv?raw"
 import useVW from "../../hooks/useVW"
+import usePlayer from "../../hooks/usePlayer"
+import whiteNoise from "../../assets/rainWhiteNoise.mp3"
+import ObserverCallback from "../../types/ObserverCallback"
+import useObserver from "../../hooks/useObserver"
 
 const CustomerGrowth = () => {
   const customerGrowthGraphRef = useRef<HTMLElement>(null)
@@ -203,12 +207,29 @@ const TotalSales = () => {
   </article>
 }
 
-const DataStory = () => 
-  <section className="sm:grid grid-rows-[min-content_min-content_1fr_1fr] grid-cols-3">
-    <CustomerGrowth />
-    <CategoryDistribution />
-    <MarketShareChoropleth />
-    <TotalSales />
-  </section>
+const DataStory = () => {
+  const dataStoryRef = useRef(null)
+  const [playWhiteNoise, stopWhiteNoise] = usePlayer(whiteNoise)
+  
+  const playWhenVisible: ObserverCallback = (isVisible) => {
+    const {current} = dataStoryRef
+    if(current && isVisible) {
+      playWhiteNoise()
+    } else {
+      stopWhiteNoise()
+    }
+  }
+
+  useObserver(dataStoryRef, playWhenVisible)
+  
+  return (
+    <section className="sm:grid grid-rows-[min-content_min-content_1fr_1fr] grid-cols-3" ref={dataStoryRef}>
+      <CustomerGrowth />
+      <CategoryDistribution />
+      <MarketShareChoropleth />
+      <TotalSales />
+    </section>
+  )
+}
 
 export default DataStory
