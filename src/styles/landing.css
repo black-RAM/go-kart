@@ -115,7 +115,7 @@
 }
 
 .text-bubble {
-  @apply bg-blue-700 bg-opacity-95 text-white p-4 rounded sm:max-w-[75%] lg:max-w-max sm:text-xl relative;
+  @apply bg-blue-700 bg-opacity-95 text-white p-4 rounded sm:max-w-[75%] lg:max-w-max sm:text-xl relative opacity-0;
 
   /* text bubble tail */
   --r: 1em;
@@ -129,12 +129,12 @@
 
 .left {
   --_p: 0;
-  @apply rounded-bl-none translate-y-32 opacity-50;
+  @apply rounded-bl-none translate-y-32;
 }
 
 .right {
   --_p: 100%;
-  @apply self-end text-right rounded-br-none opacity-0 translate-y-16;
+  @apply self-end text-right rounded-br-none translate-y-16;
 }
 
 #cta.animated .left {
