@@ -4,7 +4,7 @@
 }
 
 @media screen and (min-width: 640px) {
-  ul li a {
+  footer ul li a {
     @apply hover:text-stone-200 duration-500;
     transform: rotate(-30deg) skew(25deg) translate(0, 0);
     box-shadow: -20px 20px 10px rgba(0, 0, 0, .5);
@@ -91,13 +91,13 @@
 }
 
 @media screen and (max-width: 640px) {
-  ul li a {
+  footer ul li a {
     border-radius: 50px;
     background: linear-gradient(145deg, #f7f5f4, #d0cecd);
     box-shadow: 20px 20px 60px #c4c3c2, -20px -20px 60px transparent;
   }
 }
 
-ul li:nth-child(4) p {
+footer ul li:nth-child(4) p {
   @apply hidden;
 }

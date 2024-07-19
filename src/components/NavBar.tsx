@@ -4,6 +4,7 @@ import logo from "/kart.png"
 import revving from "../assets/revving.mp3"
 import kaching from "../assets/kaching.mp3"
 import synthC4 from "../assets/synthC4.mp3"
+import { Link } from "react-router-dom"
 import "../styles/NavBar.css"
 
 const CarPedal: React.FC<{children: React.ReactNode}> = ({children}) => {
@@ -43,17 +44,17 @@ const NavBar: React.FC<{cart: number}> = ({cart}) => {
         </figure>
       </div>      
 
-      <CarPedal>
-        <h2 className="text-lg">
-          <a>Home</a>
-        </h2>
-      </CarPedal>
+      <Link to="/">
+        <CarPedal>
+          <h2 className="text-lg">Home</h2>
+        </CarPedal>
+      </Link>
 
-      <CarPedal>
-        <h2 className="text-lg">
-          <a>Shop</a>
-        </h2>
-      </CarPedal>
+      <Link to="shop">
+        <CarPedal>
+          <h2 className="text-lg">Shop</h2>
+        </CarPedal>
+      </Link>
 
       <div className="flex justify-center items-center hover:text-red-100 transition-colors">
         <a className="cursor-pointer" onClick={playAll}>
