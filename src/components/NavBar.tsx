@@ -28,7 +28,7 @@ const CarPedal: React.FC<{children: React.ReactNode}> = ({children}) => {
   )
 }
 
-const NavBar: React.FC<{cart: number}> = ({cart}) => {
+const NavBar: React.FC<{cartCount: number}> = ({cartCount}) => {
   const [playRegister] = usePlayer(kaching)
   const [playNote] = usePlayer(synthC4)
   const playAll = async() => {
@@ -63,8 +63,8 @@ const NavBar: React.FC<{cart: number}> = ({cart}) => {
           </svg>
         </a>
 
-        <caption className="bg-indigo-800 w-6 rounded-full" style={{visibility: cart ? "visible" : "hidden"}}>
-          {cart}
+        <caption className="bg-indigo-800 w-6 rounded-full" style={{visibility: cartCount ? "visible" : "hidden"}}>
+          {cartCount}
         </caption>
       </div>
     </nav>

@@ -1,4 +1,12 @@
+import { useOutletContext } from "react-router-dom"
+import contextTuple from "../types/contextTuple"
+import { useEffect } from "react"
+
 const Shop = () => {
-  return <h1>Shop</h1>
+  const [cart, setCart, catalog] = useOutletContext<contextTuple>()
+  useEffect(() => {
+    console.log(catalog)
+  }, [catalog])
+  return null
 }
 export default Shop
