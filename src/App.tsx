@@ -3,21 +3,23 @@ import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import { useEffect, useState } from "react"
 import Product from "./types/Product"
-import contextTuple from "./types/contextTuple"
+import ShopContext from "./contexts/ShopContext"
 
 const App = () => {
-  const [cart, setCart] = useState<number[]>([])
-  const [catalog, setCatalog] = useState<Product[]>([])
+  const [cart, placeInCart] = useState<number[]>([])
+  const [catalog, printCatalog] = useState<Product[]>([])
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then(response => response.json())
-      .then(data => setCatalog(data))
+      .then(data => printCatalog(data))
   }, [])
 
   return <>
     <NavBar cartCount={cart.length} />
-    <Outlet context={[cart, setCart, catalog] satisfies contextTuple}/>
+    <ShopContext.Provider value={{cart, placeInCart, catalog}}>
+      <Outlet/>
+    </ShopContext.Provider>
     <Footer />
   </>
 }

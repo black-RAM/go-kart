@@ -25,7 +25,7 @@ const Hero = () => {
   return (
     <header ref={headerRef} className="grid lg:grid-cols-2 bg-center bg-cover" id="hero-wrapper" style={{backgroundImage: `url(${mallBackground})`}}>
       <div className="overflow-hidden">
-        <div id="header-container" className="h-full w-full flex items-center p-8 backdrop-blur lg:h-[calc(100vh-76px)]">
+        <div id="header-container" className="h-full w-full flex items-center p-8 backdrop-blur lg:min-h-[calc(100vh-76px)]">
           <h1 className="text-8xl sm:text-9xl text-center lg:text-right font-black uppercase" id="hero-header">Let's Go Kart!</h1>
         </div>
       </div>
