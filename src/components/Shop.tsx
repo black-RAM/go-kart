@@ -6,6 +6,7 @@ import chime2 from "../assets/chimeSoundC.mp3"
 import riverAmbiance from "../assets/riverAmbiance.mp3"
 import angelicPad from "../assets/angelicPad.mp3"
 import usePlayer from "../hooks/usePlayer"
+import wallpaper from "../assets/aiRiverWallpaper.png"
 import "../styles/Shop.css"
 
 const ProductCard: React.FC<{p: Product}> = ({p}) => {
@@ -53,12 +54,12 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   }
 
   return (
-    <article className="grid items-center rounded-lg w-80 shadow hover:shadow-lg" onMouseOver={playPad} onMouseLeave={stopPad}>
-      <figure className="flex justify-center bg-white rounded-t-lg">
+    <article className="grid items-center rounded-xl w-80 shadow-stone-600 shadow-lg hover:shadow-stone-800 bg-white" onMouseOver={playPad} onMouseLeave={stopPad}>
+      <figure className="flex justify-center rounded-t-xl">
         <img src={p.image} alt={p.title} className="h-60" />
       </figure>
-      <div className="grid grid-cols-[3fr_1fr] p-2 h-full rounded-b-lg bg-gradient-to-r from-blue-50 to-blue-200">
-        <h4 className="flex items-center">{p.title}</h4>
+      <div className="grid grid-cols-[3fr_1fr] p-2 h-full rounded-b-xl bg-gradient-to-r from-blue-50 to-blue-200">
+        <h4 className="flex items-center text-sm">{p.title}</h4>
         <div className="flex justify-center items-center">
           <p className="bg-amber-200 font-semibold text-blue-900 rounded-full p-2 w-max h-min">${p.price}</p>
         </div>
@@ -73,8 +74,11 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
 
 const Shop = () => {
   const { catalog } = useContext(ShopContext)
-  const [playRiver] = usePlayer(riverAmbiance, true)
-  useEffect(() => {playRiver()}, [playRiver])
+  const [playRiver, stopRiver] = usePlayer(riverAmbiance, true)
+  useEffect(() => {
+    playRiver()
+    return stopRiver
+  }, [playRiver, stopRiver])
   
   const groupedByCategory = catalog.reduce((categories, product) => {
     if(!categories[product.category]) categories[product.category] = []
@@ -83,8 +87,8 @@ const Shop = () => {
   }, {} as {[category: string]: Product[]})
 
   const categorySections = Object.entries(groupedByCategory).map(([category, products]) => 
-    <section className="p-4">
-      <h3 className="capitalize text-3xl font-bold text-slate-800">{category}</h3>
+    <section className="px-4 pt-8">
+      <h3 className="capitalize text-4xl font-bold text-stone-200 mb-2">{category}</h3>
       <div className="overflow-y-scroll">
         <div className="flex w-max gap-4 py-4">
           {products.map(product => <ProductCard p={product} />)}
@@ -94,9 +98,14 @@ const Shop = () => {
   )
 
   return (
-    <main>
-      {categorySections}
-    </main>
+    <div className="bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${wallpaper})`}}>
+      <header className="h-96 grid items-center">
+        <h1 className="text-9xl uppercase text-stone-200 font-extralight p-4 px-8 backdrop-blur w-max rounded-r-full">Shop</h1>
+      </header>
+      <main className="bg-white bg-opacity-25 backdrop-blur-sm">
+        {categorySections}
+      </main>
+    </div>
   )
 }
 
