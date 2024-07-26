@@ -1,20 +1,26 @@
-@keyframes buttonShine {
+@keyframes buyGlow {
   0% {
-    @apply bg-right-bottom;
+    transform: translateX(calc(-1 * var(--buy-width)));
   }
 
   50% {
-    @apply bg-left-top;
+    transform: translateX(0);
   }
 
   100% {
-    @apply bg-right-bottom;
+    transform: translateX(calc(-1 * var(--buy-width)));
   }
 }
 
 .buy-wrapper {
-  background-size: 400%;
+  --buy-width: 296px;
+  >.buy-background {
+    width: calc(var(--buy-width) * 2);
+    transform: translateX(calc(-1 * var(--buy-width)));
+  }
   &:hover {
-    animation: buttonShine 4s infinite alternate;
+    >.buy-background {
+      animation: buyGlow 4s linear infinite alternate;
+    }
   }
 }

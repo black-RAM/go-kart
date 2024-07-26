@@ -1,11 +1,19 @@
 import React, { useContext, useEffect, useState } from "react"
 import Product from "../types/Product"
 import ShopContext from "../contexts/ShopContext"
+import chime1 from "../assets/chimeSoundFSharp.mp3"
+import chime2 from "../assets/chimeSoundC.mp3"
+import riverAmbiance from "../assets/riverAmbiance.mp3"
+import angelicPad from "../assets/angelicPad.mp3"
+import usePlayer from "../hooks/usePlayer"
 import "../styles/Shop.css"
 
 const ProductCard: React.FC<{p: Product}> = ({p}) => {
   const [count, setCount] = useState(0)
   const {cart, placeInCart} = useContext(ShopContext)
+  const [playChime1] = usePlayer(chime1)
+  const [playChime2] = usePlayer(chime2)
+  const [playPad, stopPad] = usePlayer(angelicPad)
 
   useEffect(() => {
     const newCart = cart.filter(id => id !== p.id)
@@ -14,8 +22,14 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   }, [count, p.id, cart, placeInCart])
 
   let orderButton: React.JSX.Element
-  const increment = () => setCount(count => count + 1)
-  const decrement = () => setCount(count => Math.max(count - 1, 0))
+  const increment = () => {
+    playChime1()
+    setCount(count => count + 1)
+  }
+  const decrement = () => {
+    playChime2()
+    setCount(count => Math.max(count - 1, 0))
+  }
 
   if(count < 1) {
     orderButton = (
@@ -39,7 +53,7 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   }
 
   return (
-    <article className="grid items-center rounded-lg w-80 shadow hover:shadow-lg">
+    <article className="grid items-center rounded-lg w-80 shadow hover:shadow-lg" onMouseOver={playPad} onMouseLeave={stopPad}>
       <figure className="flex justify-center bg-white rounded-t-lg">
         <img src={p.image} alt={p.title} className="h-60" />
       </figure>
@@ -48,8 +62,9 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
         <div className="flex justify-center items-center">
           <p className="bg-amber-200 font-semibold text-blue-900 rounded-full p-2 w-max h-min">${p.price}</p>
         </div>
-        <div className="buy-wrapper col-span-2 h-9 bg-gradient-to-r bg-right from-green-600 via-lime-400 to-green-600 text-blue-50 fill-blue-50 m-1 grid items-center">
-          {orderButton}
+        <div className="buy-wrapper col-span-2 h-9 text-blue-50 fill-blue-50 m-1 relative overflow-hidden">
+          <div className="buy-background bg-gradient-to-r from-green-600 via-lime-500 to-green-600 h-full w-full"></div>
+          <div className="z-10 absolute inset-0 grid items-center">{orderButton}</div>
         </div>
       </div>
     </article>
@@ -58,6 +73,8 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
 
 const Shop = () => {
   const { catalog } = useContext(ShopContext)
+  const [playRiver] = usePlayer(riverAmbiance, true)
+  useEffect(() => {playRiver()}, [playRiver])
   
   const groupedByCategory = catalog.reduce((categories, product) => {
     if(!categories[product.category]) categories[product.category] = []
