@@ -3,8 +3,6 @@ import Product from "../types/Product"
 import ShopContext from "../contexts/ShopContext"
 import chime1 from "../assets/chimeSoundFSharp.mp3"
 import chime2 from "../assets/chimeSoundC.mp3"
-import riverAmbiance from "../assets/riverAmbiance.mp3"
-import angelicPad from "../assets/angelicPad.mp3"
 import usePlayer from "../hooks/usePlayer"
 import wallpaper from "../assets/aiRiverWallpaper.png"
 import "../styles/Shop.css"
@@ -14,7 +12,6 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   const {cart, placeInCart} = useContext(ShopContext)
   const [playChime1] = usePlayer(chime1)
   const [playChime2] = usePlayer(chime2)
-  const [playPad, stopPad] = usePlayer(angelicPad)
 
   useEffect(() => {
     const newCart = cart.filter(id => id !== p.id)
@@ -54,7 +51,7 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   }
 
   return (
-    <article className="grid items-center rounded-xl w-80 shadow-stone-600 shadow-lg hover:shadow-stone-800 bg-white" onMouseOver={playPad} onMouseLeave={stopPad}>
+    <article className="grid items-center rounded-xl w-80 shadow-stone-600 shadow-lg hover:shadow-stone-800 bg-white">
       <figure className="flex justify-center rounded-t-xl">
         <img src={p.image} alt={p.title} className="h-60" />
       </figure>
@@ -74,11 +71,6 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
 
 const Shop = () => {
   const { catalog } = useContext(ShopContext)
-  const [playRiver, stopRiver] = usePlayer(riverAmbiance, true)
-  useEffect(() => {
-    playRiver()
-    return stopRiver
-  }, [playRiver, stopRiver])
   
   const groupedByCategory = catalog.reduce((categories, product) => {
     if(!categories[product.category]) categories[product.category] = []
