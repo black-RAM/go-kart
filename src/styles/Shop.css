@@ -1,0 +1,20 @@
+@keyframes buttonShine {
+  0% {
+    @apply bg-right-bottom;
+  }
+
+  50% {
+    @apply bg-left-top;
+  }
+
+  100% {
+    @apply bg-right-bottom;
+  }
+}
+
+.buy-wrapper {
+  background-size: 400%;
+  &:hover {
+    animation: buttonShine 4s infinite alternate;
+  }
+}

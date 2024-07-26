@@ -3,7 +3,7 @@ import facebook from "../assets/facebookLogo.png"
 import instagram from "../assets/instagramLogo.png"
 import tiktok from "../assets/tiktokLogo.png"
 import X from "../assets/xLogo.png"
-import "../styles/footer.css"
+import "../styles/Footer.css"
 
 const Handle: FC<{platform: string, icon: string}> = ({platform, icon}) => {
   return (
