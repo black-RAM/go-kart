@@ -4,7 +4,7 @@ import ShopContext from "../contexts/ShopContext"
 import chime1 from "../assets/chimeSoundFSharp.mp3"
 import chime2 from "../assets/chimeSoundC.mp3"
 import usePlayer from "../hooks/usePlayer"
-import wallpaper from "../assets/aiRiverWallpaper.png"
+import wallpaper from "../assets/d5-render-fWH71R_-9QM-unsplash.jpg"
 import "../styles/Shop.css"
 
 const ProductCard: React.FC<{p: Product}> = ({p}) => {
@@ -51,7 +51,8 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   }
 
   return (
-    <article className="grid items-center rounded-xl w-80 shadow-stone-600 shadow-lg hover:shadow-stone-800 bg-white">
+    <article className="grid items-center rounded-xl w-80 shadow hover:shadow-lg shadow-neutral-800 hover:shadow-neutral-800
+     bg-white">
       <figure className="flex justify-center rounded-t-xl">
         <img src={p.image} alt={p.title} className="h-60" />
       </figure>
@@ -80,7 +81,7 @@ const Shop = () => {
 
   const categorySections = Object.entries(groupedByCategory).map(([category, products]) => 
     <section className="px-4 pt-8">
-      <h3 className="capitalize text-4xl font-bold text-stone-200 mb-2">{category}</h3>
+      <h3 className="capitalize text-4xl font-bold text-stone-900 mb-2">{category}</h3>
       <div className="overflow-y-scroll">
         <div className="flex w-max gap-4 py-4">
           {products.map(product => <ProductCard p={product} />)}
@@ -92,9 +93,9 @@ const Shop = () => {
   return (
     <div className="bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${wallpaper})`}}>
       <header className="h-96 grid items-center">
-        <h1 className="text-9xl uppercase text-stone-200 font-extralight p-4 px-8 backdrop-blur w-max rounded-r-full">Shop</h1>
+        <h1 className="text-9xl uppercase text-slate-950 font-extralight tracking-widest p-4 px-8 backdrop-blur-md w-max rounded-r-full">Shop</h1>
       </header>
-      <main className="bg-white bg-opacity-25 backdrop-blur-sm">
+      <main className="bg-white bg-opacity-25 backdrop-blur-sm pb-6">
         {categorySections}
       </main>
     </div>
