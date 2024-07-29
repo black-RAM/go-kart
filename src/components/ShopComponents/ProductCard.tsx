@@ -73,7 +73,7 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   return (
     <article className="grid items-center rounded-xl w-56 sm:w-80 shadow hover:shadow-lg shadow-neutral-800 hover:shadow-neutral-800
      bg-white">
-      <figure className="flex justify-center rounded-t-xl">
+      <figure className="flex justify-center rounded-t-xl p-1">
         <img src={p.image} alt={p.title} className="h-40 sm:h-60" />
       </figure>
       <div className="grid grid-cols-[1fr_min-content] p-2 h-full rounded-b-xl bg-gradient-to-r from-blue-50 to-blue-200">
