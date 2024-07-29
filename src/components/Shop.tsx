@@ -19,9 +19,9 @@ const Shop = () => {
   }, {} as Category)
 
   const categorySections = Object.entries(groupedByCategory).map(([category, products], index) => 
-    <section className="px-4 pt-8">
+    <section className="px-4 pt-8" key={index * products.length}>
       <h3 className="capitalize text-3xl sm:text-4xl font-bold text-stone-100 mb-2">{category}</h3>
-      <ProductListing products={products} key={index * products.length} />
+      <ProductListing products={products} />
     </section>
   )
 

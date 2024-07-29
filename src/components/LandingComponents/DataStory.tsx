@@ -7,10 +7,8 @@ import productCategories from "../../assets/productCategories.json"
 import usaTopology from "../../assets/counties-10m.json"
 import marketSharesCSV from "../../assets/broadband_long2000-2018rev.csv?raw"
 import useVW from "../../hooks/useVW"
+import clickSound from "../../assets/mouseClick.mp3"
 import usePlayer from "../../hooks/usePlayer"
-import whiteNoise from "../../assets/rainWhiteNoise.mp3"
-import ObserverCallback from "../../types/ObserverCallback"
-import useObserver from "../../hooks/useObserver"
 
 const CustomerGrowth = () => {
   const customerGrowthGraphRef = useRef<HTMLElement>(null)
@@ -129,7 +127,7 @@ const CategoryDistribution = () => {
         <figure className="relative basis-[max(30vw,256px)] my-8">
           <div id="category-pie-chart"></div>
           <div className="absolute inset-0 grid justify-center items-center">
-            <caption id="category-pie-chart-legend" className="grid grid-cols-[min-content_1fr] gap-x-1 justify-center text-zinc-400 text-left"></caption>
+            <p id="category-pie-chart-legend" className="grid grid-cols-[min-content_1fr] gap-x-1 justify-center text-zinc-400 text-left"></p>
           </div>
         </figure>
         <div className="flex items-center basis-64 grow">
@@ -144,6 +142,11 @@ const MarketShareChoropleth = () => {
   const choroplethRef = useRef<HTMLElement>(null)
   const [year, setYear] = useState(2024)
   const vw = useVW()
+  const [playClickSound] = usePlayer(clickSound)
+  const changeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    playClickSound()
+    setYear(Number(e.target.value))
+  }
 
   // Choropleth using Observable Plot
   useEffect(() => {
@@ -190,10 +193,10 @@ const MarketShareChoropleth = () => {
       <h3 className="text-3xl text-center text-slate-100 font-bold capitalize">Nation-wide adoption</h3>
       <figure ref={choroplethRef} className="relative grid justify-center m-2 shadow-lg shadow-slate-900">
         <label className="sm:absolute top-0 right-0 flex justify-center bg-gradient-to-b from-slate-600 to-slate-800 p-2 gap-2 shadow-sm shadow-slate-900 text-xs lg:text-base">
-          <input type="range" min={2006} max={2024} value={year} onChange={(e) => setYear(+e.target.value)} className="sm:max-w-[14vw] lg:w-64" />
+          <input type="range" min={2006} max={2024} value={year} onChange={changeHandler}  className="sm:max-w-[14vw] lg:w-64" />
           <h4 className="bg-gradient-to-b from-slate-500 to-slate-600 shadow-sm shadow-slate-700 p-1 rounded font-bold text-slate-300 w-12 text-center">{year}</h4>
         </label>
-        <caption className="text-slate-600 order-1 my-2 text-xs sm:text-base">States that are not shaded were not included in the survey.</caption>
+        <p className="text-slate-600 order-1 my-2 text-xs sm:text-base text-center">States that are not shaded were not included in the survey.</p>
       </figure>
       <p className="text-center text-slate-200 my-4">Explore our nationwide customer base with this interactive choropleth map, showcasing GoKart's reach across the United States. See how our products have been widely adopted from coast to coast, reflecting our growth and popularity.</p>
     </article>
@@ -207,29 +210,12 @@ const TotalSales = () => {
   </article>
 }
 
-const DataStory = () => {
-  const dataStoryRef = useRef(null)
-  const [playWhiteNoise, stopWhiteNoise] = usePlayer(whiteNoise)
-  
-  const playWhenVisible: ObserverCallback = (isVisible) => {
-    const {current} = dataStoryRef
-    if(current && isVisible) {
-      playWhiteNoise()
-    } else {
-      stopWhiteNoise()
-    }
-  }
-
-  useObserver(dataStoryRef, playWhenVisible)
-  
-  return (
-    <section className="sm:grid grid-rows-[min-content_min-content_1fr_1fr] grid-cols-3" ref={dataStoryRef}>
-      <CustomerGrowth />
-      <CategoryDistribution />
-      <MarketShareChoropleth />
-      <TotalSales />
-    </section>
-  )
-}
+const DataStory = () => 
+  <section className="sm:grid grid-rows-[min-content_min-content_1fr_1fr] grid-cols-3">
+    <CustomerGrowth />
+    <CategoryDistribution />
+    <MarketShareChoropleth />
+    <TotalSales />
+  </section>
 
 export default DataStory

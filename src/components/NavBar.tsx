@@ -9,7 +9,7 @@ import ShopContext from "../contexts/ShopContext"
 import "../styles/NavBar.css"
 
 const CarPedal: React.FC<{children: React.ReactNode}> = ({children}) => {
-  const [play, pause] = usePlayer(revving, true)
+  const [play, pause] = usePlayer(revving)
 
   return (
     <figure className="grid justify-center">

@@ -9,7 +9,6 @@ import ShopContext from "./contexts/ShopContext"
 const App = () => {
   const [cart, placeInCart] = useState<CartItem[]>([])
   const [catalog, printCatalog] = useState<Product[]>([])
-  useEffect(() => console.log(cart), [cart])
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
