@@ -63,7 +63,7 @@ const NavBar: React.FC<{cartCount: number}> = ({cartCount}) => {
           </svg>
         </a>
 
-        <div className="bg-indigo-800 w-6 rounded-full" style={{visibility: cartCount ? "visible" : "hidden"}}>
+        <div className="bg-indigo-800 size-7 rounded-full flex items-center justify-center" style={{visibility: cartCount ? "visible" : "hidden"}}>
           {cartCount}
         </div>
       </div>

@@ -11,8 +11,14 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
 
   useEffect(() => {
     if(cart.findIndex(item => item.id == p.id) < 0) {
-      placeInCart(c => [...c, {id: p.id, count: 0}])
-      setCartItemIndex(cart.length)
+      placeInCart(c => {
+        if(c.findIndex(i => i.id == p.id) < 0) { // double-check
+          return [...c, {id: p.id, count: 0}]
+        } else {
+          return c
+        } 
+      })
+      setCartItemIndex(p.id - 1)
     }
   }, [cart, p.id, placeInCart])
 
@@ -21,7 +27,6 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   
   const increment = () => {
     playChime1()
-    console.log(cartItemIndex)
     if(cartItemIndex >= 0) {
       placeInCart(cart => {
         const clone = structuredClone(cart)
