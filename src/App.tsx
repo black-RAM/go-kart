@@ -17,13 +17,13 @@ const App = () => {
       .then(data => printCatalog(data))
   }, [])
 
-  return <>
-    <NavBar cartCount={cart.length} />
+  return (
     <ShopContext.Provider value={{cart, placeInCart, catalog}}>
+      <NavBar />
       <Outlet/>
+      <Footer />
     </ShopContext.Provider>
-    <Footer />
-  </>
+  )
 }
 
 export default App

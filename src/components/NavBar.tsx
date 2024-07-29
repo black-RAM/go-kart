@@ -1,10 +1,11 @@
 import usePlayer from "../hooks/usePlayer"
-
 import logo from "/kart.png"
 import revving from "../assets/revving.mp3"
 import kaching from "../assets/kaching.mp3"
 import synthC4 from "../assets/synthC4.mp3"
 import { Link } from "react-router-dom"
+import { useContext, useMemo } from "react"
+import ShopContext from "../contexts/ShopContext"
 import "../styles/NavBar.css"
 
 const CarPedal: React.FC<{children: React.ReactNode}> = ({children}) => {
@@ -28,7 +29,9 @@ const CarPedal: React.FC<{children: React.ReactNode}> = ({children}) => {
   )
 }
 
-const NavBar: React.FC<{cartCount: number}> = ({cartCount}) => {
+const NavBar = () => {
+  const {cart} = useContext(ShopContext)
+  const cartCount = useMemo(() => cart.reduce((sum, item) => sum + item.count, 0), [cart])
   const [playRegister] = usePlayer(kaching)
   const [playNote] = usePlayer(synthC4)
   const playAll = async() => {
