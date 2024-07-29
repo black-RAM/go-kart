@@ -1,9 +1,10 @@
 import React from "react"
 import Product from "./Product"
+import CartItem from "./CartItem"
 
 type ShopContextInterface = {
-  cart: number[],
-  placeInCart: React.Dispatch<React.SetStateAction<number[]>>,
+  cart: CartItem[],
+  placeInCart: React.Dispatch<React.SetStateAction<CartItem[]>>,
   catalog: Product[]
 }
 

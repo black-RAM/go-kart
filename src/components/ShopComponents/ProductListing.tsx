@@ -62,7 +62,7 @@ const ProductListing: React.FC<{products: Product[]}> = ({products}) => {
         </div>
       )}
       <div className="flex w-max gap-4 py-4" style={{transform: `translateX(${xOffset}px)`}} ref={carousel}>
-        {products.map(product => <ProductCard p={product} />)}
+        {products.map(product => <ProductCard p={product} key={product.id} />)}
       </div>
       {overflows && (
         <div className="absolute right-0 top-0 z-20 h-full w-12 py-4">
