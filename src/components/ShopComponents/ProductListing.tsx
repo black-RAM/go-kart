@@ -54,7 +54,7 @@ const ProductListing: React.FC<{products: Product[]}> = ({products}) => {
     <div className="overflow-hidden relative">
       {overflows && (
         <div className="absolute left-0 top-0 z-20 h-full w-12 py-4">
-          <button onMouseDown={startTranslateBackwards} onMouseUp={endTranslate} className="bg-slate-900 shadow shadow-neutral-800 bg-opacity-95 h-full w-full flex justify-center items-center hide-when-disabled" disabled={xOffset > 0} title="scroll left">
+          <button onMouseDown={startTranslateBackwards} onMouseUp={endTranslate} onTouchEnd={startTranslateBackwards} onTouchCancel={endTranslate} className="bg-slate-900 shadow shadow-neutral-800 bg-opacity-95 h-full w-full flex justify-center items-center hide-when-disabled" disabled={xOffset >= 0} title="scroll left">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="fill-white size-8">
               <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
             </svg>
@@ -66,7 +66,7 @@ const ProductListing: React.FC<{products: Product[]}> = ({products}) => {
       </div>
       {overflows && (
         <div className="absolute right-0 top-0 z-20 h-full w-12 py-4">
-          <button onMouseDown={startTranslateForwards} onMouseUp={endTranslate} disabled={isEndOfTrack} className="bg-slate-900 shadow shadow-neutral-800 bg-opacity-95 h-full w-full flex justify-center items-center hide-when-disabled" title="scroll right">
+          <button onMouseDown={startTranslateForwards} onMouseUp={endTranslate} onTouchEnd={startTranslateForwards} onTouchCancel={endTranslate} disabled={isEndOfTrack} className="bg-slate-900 shadow shadow-neutral-800 bg-opacity-95 h-full w-full flex justify-center items-center hide-when-disabled" title="scroll right">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="fill-white size-8">
               <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
             </svg>
