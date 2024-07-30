@@ -1,12 +1,15 @@
 import Product from "../../types/Product"
 import OrderButton from "./OrderButton"
+import { Link } from "react-router-dom"
 
 const ProductCard: React.FC<{p: Product}> = ({p}) => 
   <article className="grid items-center rounded-xl w-56 sm:w-80 shadow hover:shadow-lg shadow-neutral-800 hover:shadow-neutral-800
     bg-white">
-    <figure className="flex justify-center rounded-t-xl p-1">
-      <img src={p.image} alt={p.title} className="h-40 sm:h-60" />
-    </figure>
+    <Link to={String(p.id)}>
+      <figure className="flex justify-center rounded-t-xl p-1 overflow-hidden">
+        <img src={p.image} alt={p.title} className="h-40 sm:h-60 hover:scale-105 transition-transform " />
+      </figure>
+    </Link>
     <div className="grid grid-cols-[1fr_min-content] p-2 h-full rounded-b-xl bg-gradient-to-r from-blue-50 to-blue-200">
       <h4 className="flex items-center text-sm">{p.title}</h4>
       <div className="flex justify-center items-center">

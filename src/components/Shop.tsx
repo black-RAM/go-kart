@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { Outlet, useLocation } from "react-router-dom"
 import ProductListing from "./ShopComponents/ProductListing"
 import Product from "../types/Product"
 import ShopContext from "../contexts/ShopContext"
@@ -7,6 +8,7 @@ import "../styles/Shop.css"
 
 const Shop = () => {
   const { catalog } = useContext(ShopContext)
+  const location = useLocation()
 
   interface Category {
     [category: string]: Product[]
@@ -27,12 +29,18 @@ const Shop = () => {
 
   return (
     <div className="bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${wallpaper})`}}>
-      <header className="h-96 grid items-center">
-        <h1 className="text-7xl sm:text-9xl uppercase text-stone-100 font-extralight tracking-widest p-4 px-8 backdrop-blur-md w-max rounded-r-full">Shop</h1>
-      </header>
-      <main className="bg-stone-900 bg-opacity-25 backdrop-blur-sm pb-6">
-        {categorySections}
-      </main>
+      {
+        location.pathname == "/shop" ?
+        <>
+          <header className="h-96 grid items-center">
+            <h1 className="text-7xl sm:text-9xl uppercase text-stone-100 font-extralight tracking-widest p-4 px-8 backdrop-blur-md w-max rounded-r-full">Shop</h1>
+          </header>
+          <main className="bg-stone-900 bg-opacity-25 backdrop-blur-sm pb-6">
+            {categorySections}
+          </main>        
+        </>
+        : <Outlet />
+      }
     </div>
   )
 }
