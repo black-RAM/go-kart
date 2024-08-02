@@ -39,7 +39,7 @@ const NavBar = () => {
           </svg>
         </a>
 
-        <div className="bg-indigo-800 size-7 rounded-full flex items-center justify-center" style={{visibility: cartCount ? "visible" : "hidden"}}>
+        <div className="bg-indigo-800 size-7 rounded-full items-center justify-center" style={{display: cartCount > 0 ? "flex" : "none"}}>
           {cartCount}
         </div>
       </div>

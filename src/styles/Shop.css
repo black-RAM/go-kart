@@ -33,3 +33,19 @@ button:disabled {
 button.hide-when-disabled:disabled {
   visibility: hidden;
 }
+
+@keyframes focusLens {
+  100% {
+    @apply blur-0;
+  }
+}
+
+.product-page {
+  @apply blur-lg;
+  animation: focusLens 500ms ease-in-out forwards;
+  --img-height: max(384px, calc(100vh - 150px));
+  min-height: calc(var(--img-height) + 64px);
+  .product-image {
+    max-height: var(--img-height);
+  }
+}
