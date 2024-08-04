@@ -9,7 +9,7 @@ import CarPedal from "./NavbarComponents/CarPedal"
 
 const NavBar = () => {
   const {cart} = useContext(ShopContext)
-  const cartCount = useMemo(() => cart.reduce((sum, item) => sum + item.count, 0), [cart])
+  const cartCount = useMemo(() => Object.values(cart).reduce((sum, current) => sum + current, 0), [cart])
   const [playKaching] = usePlayer(kaching)
 
   return (

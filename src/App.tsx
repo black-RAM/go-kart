@@ -3,11 +3,11 @@ import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import { useEffect, useState } from "react"
 import Product from "./types/Product"
-import CartItem from "./types/CartItem"
+import Cart from "./types/Cart"
 import ShopContext from "./contexts/ShopContext"
 
 const App = () => {
-  const [cart, placeInCart] = useState<CartItem[]>([])
+  const [cart, placeInCart] = useState<Cart>({})
   const [catalog, printCatalog] = useState<Product[]>([])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useMemo } from "react"
 import ShopContext from "../../contexts/ShopContext"
 import { Link, useParams } from "react-router-dom"
 import OrderButton from "./OrderButton"
@@ -43,27 +43,27 @@ const RatingStars: React.FC<{rating: number}> = ({rating}) => {
 const ProductPage: React.FC = () => {
   const {catalog} = useContext(ShopContext)
   const {id} = useParams()
-  const product = catalog.find(p => p.id == Number(id))
+  const product = useMemo(() => catalog.find(p => p.id == Number(id)), [catalog, id])
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
   return (
-    <main className="product-page bg-stone-900 bg-opacity-25 backdrop-blur flex p-8 gap-8">
+    <main className="product-page bg-stone-900 bg-opacity-25 backdrop-blur grid lg:flex p-8 gap-8">
       {product && <>
-      <div className="grid items-center">
+      <div className="grid items-center justify-center">
         <Link to="/shop">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="size-8 fill-slate-200 transition-transform hover:scale-110">
             <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
           </svg>
         </Link>
       </div>
-      <div className="rounded-2xl shadow-2xl shadow-white bg-white grid items-center p-2">
-        <img src={product.image} alt={product.description} className="product-image max-w-96 object-contain rounded-2xl" />
+      <div className="rounded-2xl shadow-2xl shadow-white bg-white grid items-center justify-center p-2">
+        <img src={product.image} alt={product.description} className="product-image object-contain rounded-2xl" />
       </div>
       <section className="grid items-start gap-y-4">
-        <h2 className="text-2xl text-stone-400 font-light">{product.category}</h2>
-        <h1 className="text-6xl text-stone-100 font-bold underline">{product.title}</h1>
+        <h2 className="text-xl sm:text-2xl text-stone-400 font-light">{product.category}</h2>
+        <h1 className="text-4xl sm:text-6xl text-stone-100 font-bold underline">{product.title}</h1>
         <div className="bg-gradient-to-br from-slate-400 to-slate-600 shadow-lg shadow-slate-800 w-max flex gap-1 p-1 rounded-2xl">
           <RatingStars rating={2.5} />
           <p className="text-slate-800">{product.rating.count} Reviews</p>
@@ -72,12 +72,12 @@ const ProductPage: React.FC = () => {
           <div className="bg-rose-200 text-rose-800 rounded-l-3xl p-1 grid items-center">
             <p>${product.price}</p>
           </div>
-          <div className="rounded-r-3xl p-4 bg-indigo-300 text-indigo-950 product-description">
+          <div className="text-sm sm:text-base rounded-r-3xl p-4 bg-indigo-300 text-indigo-950 product-description">
             <p>{product.description}</p>
           </div>
         </div>
         <div className="bg-rose-600 text-rose-100 fill-rose-100 p-2 rounded grid items-center h-10">
-          <OrderButton id={product.id} />
+          <OrderButton id={String(product.id)} />
         </div>
       </section>
       </>}

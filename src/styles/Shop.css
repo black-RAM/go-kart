@@ -43,9 +43,11 @@ button.hide-when-disabled:disabled {
 .product-page {
   @apply blur-lg;
   animation: focusLens 500ms ease-in-out forwards;
-  --img-height: max(384px, calc(100vh - 150px));
+  --img-height: max(384px, calc(100vh - 200px));
   min-height: calc(var(--img-height) + 64px);
   .product-image {
     max-height: var(--img-height);
+    max-width: 384px;
+    width: calc(100vw - 80px);
   }
 }
