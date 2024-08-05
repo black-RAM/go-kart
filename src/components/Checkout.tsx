@@ -13,11 +13,13 @@ interface CountedProduct extends Product {
 
 const Checkout = () => {
   const {cart, catalog} = useContext(ShopContext)
-  const products = Object.entries(cart).map(([id, count]) => {
-    const product = catalog.find(p => p.id == Number(id)) as CountedProduct
-    product.count = count
-    return product
-  })
+  const products = Object.entries(cart)
+    .filter(entry => entry[1] > 0)
+    .map(([id, count]) => {
+      const product = catalog.find(p => p.id == Number(id)) as CountedProduct
+      product.count = count
+      return product
+    })
 
   const [playWoosh] = usePlayer(woosh)
   
