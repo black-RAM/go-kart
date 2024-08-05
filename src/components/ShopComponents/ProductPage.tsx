@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from "react"
+import { useContext, useEffect } from "react"
 import ShopContext from "../../contexts/ShopContext"
 import { Link, useParams } from "react-router-dom"
 import OrderButton from "./OrderButton"
@@ -43,7 +43,7 @@ const RatingStars: React.FC<{rating: number}> = ({rating}) => {
 const ProductPage: React.FC = () => {
   const {catalog} = useContext(ShopContext)
   const {id} = useParams()
-  const product = useMemo(() => catalog.find(p => p.id == Number(id)), [catalog, id])
+  const product = catalog.find(p => p.id == Number(id))
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])

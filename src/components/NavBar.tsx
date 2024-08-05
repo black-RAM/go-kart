@@ -2,14 +2,14 @@ import usePlayer from "../hooks/usePlayer"
 import logo from "/kart.png"
 import kaching from "../assets/kaching.mp3"
 import { Link } from "react-router-dom"
-import { useContext, useMemo } from "react"
+import { useContext } from "react"
 import ShopContext from "../contexts/ShopContext"
 import "../styles/NavBar.css"
 import CarPedal from "./NavbarComponents/CarPedal"
 
 const NavBar = () => {
   const {cart} = useContext(ShopContext)
-  const cartCount = useMemo(() => Object.values(cart).reduce((sum, current) => sum + current, 0), [cart])
+  const cartCount = Object.values(cart).reduce((sum, current) => sum + current, 0)
   const [playKaching] = usePlayer(kaching)
 
   return (
@@ -33,13 +33,13 @@ const NavBar = () => {
       </Link>
 
       <div className="flex justify-center items-center hover:text-red-100 transition-colors">
-        <a className="cursor-pointer" onClick={playKaching}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="h-8 w-8 fill-red-50 hover:fill-red-100 transition-colors">
-            <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+        <Link to="checkout">
+          <svg onClick={playKaching} xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="h-8 w-8 fill-white hover:fill-rose-200 transition-colors">
+            <path d="m480-560-56-56 63-64H320v-80h167l-64-64 57-56 160 160-160 160ZM280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
           </svg>
-        </a>
+        </Link>
 
-        <div className="bg-indigo-800 size-7 rounded-full items-center justify-center" style={{display: cartCount > 0 ? "flex" : "none"}}>
+        <div className="bg-indigo-800 size-6 text-sm font-bold rounded-full items-center justify-center" style={{display: cartCount > 0 ? "flex" : "none"}}>
           {cartCount}
         </div>
       </div>

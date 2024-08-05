@@ -18,7 +18,7 @@ const ProductCard: React.FC<{p: Product}> = ({p}) =>
       <div className="buy-wrapper col-span-2 h-9 text-blue-50 fill-blue-50 m-1 relative overflow-hidden">
         <div className="buy-background bg-gradient-to-r from-green-600 via-lime-500 to-green-600 h-full w-full"></div>
         <div className="z-10 absolute inset-0 grid items-center">
-          <OrderButton id={p.id} />
+          <OrderButton id={String(p.id)} />
         </div>
       </div>
     </div>

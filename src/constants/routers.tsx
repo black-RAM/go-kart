@@ -3,6 +3,7 @@ import LandingPage from '../components/Landing.tsx'
 import Shop from '../components/Shop.tsx'
 import { RouteObject } from "react-router-dom"
 import ProductPage from '../components/ShopComponents/ProductPage.tsx'
+import Checkout from '../components/Checkout.tsx'
 
 const routes: RouteObject[] = [
   {
@@ -22,6 +23,10 @@ const routes: RouteObject[] = [
             element: <ProductPage />
           }
         ]
+      },
+      {
+        path: "checkout",
+        element: <Checkout />
       }
     ]
   }

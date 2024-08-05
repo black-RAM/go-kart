@@ -1,0 +1,5 @@
+.checkout-receipt {
+  background: hsla(213, 97%, 87%, 0.75);
+  box-shadow: inset 20px 20px 20px hsla(213, 41%, 74%, 0.75),
+    inset -20px -20px 20px hsla(185, 100%, 93%, 0.75);
+}
