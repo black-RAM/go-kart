@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom"
 import ProductListing from "./ShopComponents/ProductListing"
 import Product from "../types/Product"
 import ShopContext from "../contexts/ShopContext"
@@ -39,7 +39,11 @@ const Shop = () => {
             {categorySections}
           </main>        
         </>
-        : <Outlet />
+        :
+        <>
+          <ScrollRestoration />
+          <Outlet />
+        </>
       }
     </div>
   )

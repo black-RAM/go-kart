@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import ShopContext from "../../contexts/ShopContext"
 import { Link, useParams } from "react-router-dom"
 import OrderButton from "./OrderButton"
@@ -44,9 +44,6 @@ const ProductPage: React.FC = () => {
   const {catalog} = useContext(ShopContext)
   const {id} = useParams()
   const product = catalog.find(p => p.id == Number(id))
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
 
   return (
     <main className="product-page bg-stone-900 bg-opacity-25 backdrop-blur grid lg:flex p-8 gap-8">
