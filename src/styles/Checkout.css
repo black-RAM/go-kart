@@ -17,10 +17,19 @@
     inset calc(-1 * var(--spread)) calc(-1 * var(--spread)) var(--blur) #ffffffbf;
 }
 
-.payment-details {
+.checkout-payment {
   background: #1e3faebf;
   box-shadow: inset var(--spread) var(--spread) var(--blur) #0c1a46bf,
     inset calc(-1 * var(--spread)) calc(-1 * var(--spread)) var(--blur) #3066ffbf;
+  .form-section-header {
+    @apply font-bold col-span-2 text-lg text-blue-400 text-right;
+  }
+  label:not(.form-section-header) {
+    @apply text-neutral-100;
+  }
+  input, textarea {
+    @apply w-full rounded p-1 bg-gradient-to-br from-neutral-100 to-neutral-400 shadow-md shadow-neutral-600 text-neutral-800 focus:outline-none focus:shadow-black;
+  }
 }
 
 td, th {

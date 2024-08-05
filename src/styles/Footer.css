@@ -5,7 +5,7 @@
 
 @media screen and (min-width: 640px) {
   footer ul li a {
-    @apply hover:text-stone-200 duration-500;
+    @apply hover:text-stone-200 focus:text-stone-200 focus:outline-none duration-500;
     transform: rotate(-30deg) skew(25deg) translate(0, 0);
     box-shadow: -20px 20px 10px rgba(0, 0, 0, .5);
 
@@ -35,13 +35,13 @@
       transform: rotate(0deg) skewX(-45deg);
     }
 
-    &:hover {
+    &:hover, &:focus {
       transform: rotate(-30deg) skew(25deg) translate(20px, -15px);
       box-shadow: -50px 50px 50px rgba(0, 0, 0, .5);
     }
   }
 
-  ul li:hover:nth-child(1) a {
+  ul li:hover:nth-child(1) a, ul li:nth-child(1) a:focus {
     @apply bg-blue-700;
 
     &::before {
@@ -53,7 +53,7 @@
     }
   }
 
-  ul li:hover:nth-child(2) a {
+  ul li:hover:nth-child(2) a, ul li:nth-child(2) a:focus {
     @apply bg-orange-500;
 
     &::before {
@@ -65,7 +65,7 @@
     }
   }
 
-  ul li:hover:nth-child(3) a {
+  ul li:hover:nth-child(3) a, ul li:nth-child(3) a:focus {
     @apply bg-fuchsia-700;
 
     &::before {
@@ -77,7 +77,7 @@
     }
   }
 
-  ul li:hover:nth-child(4) a {
+  ul li:hover:nth-child(4) a, ul li:nth-child(4) a:focus {
     @apply bg-slate-400;
 
     &::before {
