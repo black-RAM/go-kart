@@ -1,5 +1,28 @@
+.checkout-background {
+  --spread: 20px;
+  --blur: 30px;
+  min-height: calc(100vh - 76px);
+  height: max-content;
+  >div {
+    min-height: inherit;
+    >* {
+      @apply backdrop-blur-sm p-6 rounded-3xl;
+    }
+  }
+}
+
 .checkout-receipt {
-  background: hsla(213, 97%, 87%, 0.75);
-  box-shadow: inset 20px 20px 20px hsla(213, 41%, 74%, 0.75),
-    inset -20px -20px 20px hsla(185, 100%, 93%, 0.75);
+  background: #bedbfebf;
+  box-shadow: inset var(--spread) var(--spread) var(--blur) #7e91a8bf,
+    inset calc(-1 * var(--spread)) calc(-1 * var(--spread)) var(--blur) #ffffffbf;
+}
+
+.payment-details {
+  background: #1e3faebf;
+  box-shadow: inset var(--spread) var(--spread) var(--blur) #0c1a46bf,
+    inset calc(-1 * var(--spread)) calc(-1 * var(--spread)) var(--blur) #3066ffbf;
+}
+
+td, th {
+  @apply text-center p-1;
 }

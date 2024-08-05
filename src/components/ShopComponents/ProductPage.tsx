@@ -1,7 +1,9 @@
 import { useContext } from "react"
 import ShopContext from "../../contexts/ShopContext"
-import { Link, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import OrderButton from "./OrderButton"
+import usePlayer from "../../hooks/usePlayer"
+import woosh from "../../assets/fast-whoosh-118248.mp3"
 
 const FullStar = () => 
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="size-6 fill-yellow-200">
@@ -45,15 +47,24 @@ const ProductPage: React.FC = () => {
   const {id} = useParams()
   const product = catalog.find(p => p.id == Number(id))
 
+  const navigate = useNavigate()
+  const { state } = useLocation()
+  const [playWoosh] = usePlayer(woosh)
+  const goBack = () => {
+    const previous = state || "/shop"
+    navigate(previous)
+    playWoosh()
+  }
+
   return (
     <main className="product-page bg-stone-900 bg-opacity-25 backdrop-blur grid lg:flex p-8 gap-8">
       {product && <>
       <div className="grid items-center justify-center">
-        <Link to="/shop">
+        <button type="button" onClick={goBack} title="go back">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="size-8 fill-slate-200 transition-transform hover:scale-110">
             <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
           </svg>
-        </Link>
+        </button>
       </div>
       <div className="rounded-2xl shadow-2xl shadow-white bg-white grid items-center justify-center p-2">
         <img src={product.image} alt={product.description} className="product-image object-contain rounded-2xl" />

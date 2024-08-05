@@ -8,7 +8,7 @@ import "../styles/Shop.css"
 
 const Shop = () => {
   const { catalog } = useContext(ShopContext)
-  const location = useLocation()
+  const { pathname } = useLocation()
 
   interface Category {
     [category: string]: Product[]
@@ -30,7 +30,7 @@ const Shop = () => {
   return (
     <div className="bg-fixed bg-cover bg-center" style={{backgroundImage: `url(${wallpaper})`}}>
       {
-        location.pathname == "/shop" ?
+        pathname == "/shop" ?
         <>
           <header className="h-96 grid items-center">
             <h1 className="text-7xl sm:text-9xl uppercase text-stone-100 font-extralight tracking-widest p-4 px-8 backdrop-blur-md w-max rounded-r-full">Shop</h1>
