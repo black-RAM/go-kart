@@ -1,0 +1,3 @@
+#error-element a {
+  @apply text-xl sm:text-4xl bg-gradient-to-bl from-gray-400 to-gray-600 text-gray-200 rounded p-2 capitalize hover:shadow hover:shadow-gray-800 focus:shadow focus:shadow-gray-800 focus:outline-none;
+}
