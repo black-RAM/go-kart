@@ -10,13 +10,15 @@ const ProductCard: React.FC<{p: Product}> = ({p}) => {
   return (
     <article className="grid items-center rounded-xl w-56 sm:w-80 shadow hover:shadow-lg shadow-neutral-800 hover:shadow-neutral-800
       bg-white">
-      <Link to={String(p.id)}>
-        <figure className="flex justify-center rounded-t-xl p-1 overflow-hidden" onClick={playWoosh}>
-          <img src={p.image} alt={p.title} className="h-40 sm:h-60 hover:scale-105 transition-transform " />
-        </figure>
-      </Link>
+      <figure className="flex justify-center rounded-t-xl p-1 overflow-hidden" onClick={playWoosh}>
+        <img src={p.image} alt={p.title} className="h-40 sm:h-60 hover:scale-105 transition-transform " />
+      </figure>
       <div className="grid grid-cols-[1fr_min-content] p-2 h-full rounded-b-xl bg-gradient-to-r from-blue-50 to-blue-200">
-        <h4 className="flex items-center text-sm">{p.title}</h4>
+        <h4 className="flex items-center text-sm text-blue-900 underline hover:text-blue-950">
+          <Link to={String(p.id)}>
+            {p.title}
+          </Link>
+        </h4>
         <div className="flex justify-center items-center">
           <p className="bg-amber-200 text-blue-950 rounded-full p-2 w-max h-min text-sm sm:text-base">${p.price}</p>
         </div>

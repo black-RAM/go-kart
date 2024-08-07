@@ -66,7 +66,7 @@ const Checkout = () => {
                     <td>
                       <img src={product.image} alt={product.category} className="size-20 object-contain bg-white" />
                     </td>
-                    <td className="text-blue-900 hover:underline">
+                    <td className="text-blue-900 underline hover:text-blue-950">
                       <Link to={`/shop/${product.id}`} state={pathname}>
                         <span onClick={playWoosh}>{product.title}</span>
                       </Link>
