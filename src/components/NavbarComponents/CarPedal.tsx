@@ -12,8 +12,8 @@ const CarPedal: React.FC<{children: React.ReactNode}> = ({children}) => {
       </div>
       {/* pedal body */}
       <div className="z-10 relative -top-4 tilt-child-on-hover" onMouseOver={play} onMouseLeave={pause}>
-        <div className="w-max py-2 px-4 bg-repeat bg-opacity-75 rounded-sm cursor-pointer rhombus-pattern">
-          <div className="backdrop-blur-sm">
+        <div className="w-max p-2 sm:px-4 bg-repeat bg-opacity-75 rounded-sm cursor-pointer rhombus-pattern">
+          <div className="backdrop-blur-sm rounded-sm">
             {children}
           </div>
         </div>

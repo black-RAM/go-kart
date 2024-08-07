@@ -13,7 +13,7 @@ const NavBar = () => {
   const [playKaching] = usePlayer(kaching)
 
   return (
-    <nav className="w-full grid grid-cols-[1fr_repeat(2,_2fr)_1fr] bg-gradient-to-r from-indigo-950 via-violet-950 to-indigo-950 text-red-50">
+    <nav className="w-full grid grid-cols-[1fr_repeat(2,_2fr)_1fr] px-2 bg-gradient-to-r from-indigo-950 via-violet-950 to-indigo-950 text-red-50">
       <div className="flex justify-center py-2">
         <figure className="h-14 bg-red-50 rounded-full p-2">
           <img src={logo} className="h-full" alt="Go Kart logo" />
@@ -22,13 +22,13 @@ const NavBar = () => {
 
       <Link to="/">
         <CarPedal>
-          <h2 className="text-lg">Home</h2>
+          <h2 className="text-base sm:text-lg">Home</h2>
         </CarPedal>
       </Link>
 
       <Link to="shop">
         <CarPedal>
-          <h2 className="text-lg">Shop</h2>
+          <h2 className="text-base sm:text-lg">Shop</h2>
         </CarPedal>
       </Link>
 

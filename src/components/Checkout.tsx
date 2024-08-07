@@ -42,7 +42,7 @@ const Checkout = () => {
     <main className="checkout-background bg-cover bg-center bg-fixed" style={{backgroundImage: `url(${wallpaper})`}}>
       {
         products.length > 0 ? 
-        <div className="grid grid-rows-[repeat(2,max-content)] lg:grid-cols-2 lg:grid-rows-1 items-start py-2 px-2 sm:py-4 sm:px-8 gap-8">
+        <div className="grid grid-rows-[repeat(2,max-content)] lg:grid-cols-2 lg:grid-rows-1 items-start p-2 sm:py-4 sm:px-8 gap-8">
           <section className="checkout-receipt">
             <hgroup className="flex items-end justify-center border-b-2 border-b-slate-800 pb-2 gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="size-8 fill-slate-600">
@@ -60,7 +60,7 @@ const Checkout = () => {
                   <th>Subtotal</th>
                 </tr>
               </thead>
-              <tbody className="text-sm sm:text-base">
+              <tbody className="text-xs sm:text-base">
                 {products.map((product, index) => 
                   <tr key={index} className="border-b border-b-blue-100 shadow">
                     <td>
@@ -77,7 +77,7 @@ const Checkout = () => {
                   </tr>
                 )}
               </tbody>
-              <tfoot>
+              <tfoot className="text-xs sm:text-base">
                 <tr>
                   <td colSpan={3}></td>
                   <td className="bg-gradient-to-r from-blue-300 to-blue-400">Total:</td>

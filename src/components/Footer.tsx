@@ -17,10 +17,10 @@ const Handle: FC<{platform: string, icon: string}> = ({platform, icon}) => {
 const Footer = () => {
   return <footer>
     <section className="p-6 bg-gradient-to-bl from-blue-800 to-indigo-950 bg-fixed flex flex-col items-center overflow-hidden">
-      <hgroup className="relative">
+      <hgroup className="relative text-7xl sm:text-8xl md:text-9xl font-bold">
         {/* Overlaying headers to have both text-color gradient and soft shadow */}
-        <h2 className="text-8xl sm:text-9xl font-bold" id="brand-shadow" aria-hidden="true">GoKart</h2>
-        <h2 className="absolute top-0 left-0 text-8xl sm:text-9xl font-bold bg-gradient-to-bl from-stone-200 to-stone-400 bg-clip-text text-transparent">GoKart</h2>
+        <h2 id="brand-shadow" aria-hidden="true">GoKart</h2>
+        <h2 className="absolute top-0 left-0 font-bold bg-gradient-to-bl from-stone-200 to-stone-400 bg-clip-text text-transparent">GoKart</h2>
       </hgroup>
 
       <ul className="flex flex-wrap gap-3 justify-center my-8 sm:gap-y-20 sm:m-20">
