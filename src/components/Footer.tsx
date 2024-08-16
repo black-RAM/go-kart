@@ -41,7 +41,7 @@ const Footer = () => {
 
     <section className="bg-slate-900 p-4 text-center">
       <p className="text-slate-400">© Ariel Robert Mutebi 2024</p>
-      <a className="text-slate-600 hover:underline" href="http://https://github.com/black-RAM/go-kart" target="_blank" rel="noopener noreferrer">Source code</a>
+      <a className="text-slate-600 hover:underline" href="https://github.com/black-RAM/go-kart" target="_blank" rel="noopener noreferrer">Source code</a>
     </section>
   </footer>
 }
